@@ -5,11 +5,13 @@
 package frc.robot.controllers.controllers;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.controllers.interfaces.PrimaryDriverController;
 
 /** Add your docs here. */
 public class QXDriveController implements PrimaryDriverController {
+
 
     private GenericHID controller;
     private JoystickButton fieldOrientedButton;
@@ -21,6 +23,7 @@ public class QXDriveController implements PrimaryDriverController {
 
     public QXDriveController(int id) {
         controller = new GenericHID(id);
+
         fieldOrientedButton = new JoystickButton(controller, 1);
         resetGyroButton = new JoystickButton(controller, 2);
         balancingButton = new JoystickButton(controller, 3);
@@ -30,32 +33,24 @@ public class QXDriveController implements PrimaryDriverController {
     
     }
 
-    public static double deadband(double value, double lowerLimit){
-        if (Math.abs(value) < lowerLimit) {
-            return 0;
-        } else {
 
-            if (value > 0) {
-                return (value - lowerLimit) / (1 - lowerLimit);
-            } else {
-                return (value + lowerLimit) / (1 - lowerLimit);
-            }
-        }
-    }
 
     @Override
     public double getXSpeed() {
-        return deadband(controller.getRawAxis(2), 0.05);
+        return controller.getRawAxis(2) 
+        * ((controller.getRawAxis(4) + 1) / 2);
     }
 
     @Override
     public double getYSpeed() {
-        return deadband(controller.getRawAxis(1), 0.02);
+        return controller.getRawAxis(1)
+        * ((controller.getRawAxis(4) + 1) / 2);
     }
 
     @Override
     public double getRotationSpeed() {
-        return deadband(controller.getRawAxis(3), 0.02);
+        return controller.getRawAxis(3)
+        * ((controller.getRawAxis(4) + 1) / 2);
     }
 
     @Override

@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.Constants.*;
+import static frc.robot.Constants.*;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.controllers.controllers.QXDriveController;
@@ -22,7 +22,7 @@ import frc.robot.subsystems.Swerve;
 public class RobotContainer {
 
     /* Controllers */
-    private final QXDriveController driver = new QXDriveController(Constants.PrimaryDriverControllerID);
+    private final QXDriveController driver = new QXDriveController(primaryDriverControllerID);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -42,7 +42,7 @@ public class RobotContainer {
                 s_Swerve,
                 () -> -driver.getXSpeed(), 
                 () -> driver.getYSpeed(), 
-                () -> -driver.getRotationSpeed(), 
+                () -> driver.getRotationSpeed(), 
                 () -> driver.getFieldOriented()
             )
         );

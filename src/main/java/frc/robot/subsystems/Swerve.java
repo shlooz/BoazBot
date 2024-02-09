@@ -37,7 +37,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
-        
+        System.out.println(getHeading());
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -104,7 +104,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public Rotation2d getGyroYaw() {
-        return Rotation2d.fromDegrees((double)gyro.getYaw());
+        return Rotation2d.fromDegrees(-(double)gyro.getYaw());
     }
 
     public void resetModulesToAbsolute(){
