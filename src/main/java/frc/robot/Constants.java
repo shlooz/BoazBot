@@ -22,6 +22,22 @@ public final class Constants {
         public static final int rightShooterMotorID = 2;
     }
 
+    public static final class IntakeConstants {
+        public static final int ANGLE_OFFSET = 0;
+        public static final int velocityConversionFactor = 1;
+
+        public static final double MIN_DEG = 0;
+        public static final double MAX_DEG = 120;
+        public static final int ANGLE_MOTOR_CURRENT_LIMIT = 30;
+        public static final TrapezoidProfile.Constraints ANGLE_CONSTRAINTS = new TrapezoidProfile.Constraints(120, 200);
+
+
+        public static final int FEEDING_MOTOR_ID = 4;
+        public static final int ANGLE_MOTOR_ID = 5;
+        public static final int ANGLE_ABSULUTE_ENCODER_ID = 6;
+
+    }
+
     public static final class Swerve {
         public static final int pigeonID = 1;
 

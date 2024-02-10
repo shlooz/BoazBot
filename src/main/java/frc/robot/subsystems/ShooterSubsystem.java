@@ -21,6 +21,9 @@ public class ShooterSubsystem extends SubsystemBase {
     leftShooterMotor = new CANSparkMax(leftShooterMotorID, MotorType.kBrushless);
     rightShooterMotor = new CANSparkMax(rightShooterMotorID, MotorType.kBrushless);
 
+    leftShooterMotor.restoreFactoryDefaults();
+    rightShooterMotor.restoreFactoryDefaults();
+
     leftShooterMotor.setIdleMode(IdleMode.kBrake);
     rightShooterMotor.setIdleMode(IdleMode.kBrake);
 
@@ -31,9 +34,13 @@ public class ShooterSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void setShootingSpeed(double speed){
-    leftShooterMotor.set(speed);
-    rightShooterMotor.set(speed);
+  public void setShootingSpeed(double leftSpeed, double rightSpeed){
+    leftShooterMotor.set(leftSpeed);
+    rightShooterMotor.set(rightSpeed);
     
+  }
+
+  public void setShootingSpeed(){
+    setShootingSpeed(0, 0);
   }
 }
