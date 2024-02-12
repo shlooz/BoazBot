@@ -96,8 +96,9 @@ public class intakePositionSubsystem extends SubsystemBase {
     return new ProxyCommand(() -> new TrapezoidProfileCommand(
         new TrapezoidProfile(ANGLE_CONSTRAINTS), 
         state -> extracted(state),
-        new TrapezoidProfile.State(angle, 0),
-        getCurrentState())
+        () -> new TrapezoidProfile.State(angle, 0),
+        () -> getCurrentState(),
+        this)
     );
               
   
