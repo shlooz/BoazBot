@@ -5,12 +5,11 @@
 package frc.robot.controllers.controllers;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.controllers.interfaces.PrimaryDriverController;
+import frc.robot.controllers.interfaces.DriverController;
 
 /** Add your docs here. */
-public class QXDriveController implements PrimaryDriverController {
+public class QXDriveController implements DriverController {
 
 
     private GenericHID controller;

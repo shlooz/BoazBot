@@ -10,5 +10,5 @@ public class Util {
         sparkMax.setIZone(kIz);
         sparkMax.setFF(kFF);
         sparkMax.setOutputRange(kMinOutput, kMaxOutput);
-}
+  }
 }

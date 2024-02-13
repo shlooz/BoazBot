@@ -2,7 +2,7 @@ package frc.robot.controllers.interfaces;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-public interface PrimaryDriverController {
+public interface DriverController {
     public double getXSpeed();
 
     public double getYSpeed();
