@@ -22,13 +22,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.TrapezoidProfileCommand;
 
 
-public class intakePositionSubsystem extends SubsystemBase {
+public class IntakePositionSubsystem extends SubsystemBase {
   /** Creates a new intakePositionSubsystem. */
     CANSparkMax angleMotor;
     SparkPIDController angleController;
     AbsoluteEncoder angleAbsoluteEncoder;
   
-  public intakePositionSubsystem() {
+  public IntakePositionSubsystem() {
       angleMotor = new CANSparkMax(ANGLE_MOTOR_ID, MotorType.kBrushless);
       angleMotor.restoreFactoryDefaults();
       angleMotor.setIdleMode(IdleMode.kCoast);
