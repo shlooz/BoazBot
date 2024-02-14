@@ -112,5 +112,9 @@ public class IntakePositionSubsystem extends SubsystemBase {
             feedforward, SparkPIDController.ArbFFUnits.kVoltage);
   }
 
+  public Command moveToAngle(){
+    return moveToAngle(0);
+  }
+
 
 }

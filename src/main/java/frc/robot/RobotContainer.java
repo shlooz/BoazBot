@@ -34,6 +34,7 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
+    private final SuperStructure structure = new SuperStructure();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -61,6 +62,10 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         driver.getResetGyroButton().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+
+        operator.getToGroundPositionButton().onTrue(structure.groundIntake());
+        operator.getToAmpPositionButton().onTrue(structure.ampIntake());
+        operator.getToSpeakerPositionButton().onTrue(structure.speakerIntake());
     }
 
     /**

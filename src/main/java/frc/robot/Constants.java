@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
@@ -36,6 +35,13 @@ public final class Constants {
         public static final int FEEDING_MOTOR_ID = 4;
         public static final int ANGLE_MOTOR_ID = 5;
         public static final int ANGLE_ABSULUTE_ENCODER_ID = 6;
+
+        public static final double GROUND_INTAKE_ANGLE = 0;
+        public static final double AMP_INTAKE_ANGLE = 90;
+        public static final double SPEAKER_INTAKE_ANGLE = 120;
+
+        public static final double INTAKE_FEEDING_SPEED = -5;
+        public static final double INTAKE_SHOOTING_SPEED = 1;
 
     }
 
