@@ -18,8 +18,11 @@ public final class Constants {
     public static final int OPERATOR_CONTROLLER_ID = 0;
 
     public static final class ShooterConstants {
-        public static final int LEFT_SHOOTER_MOTOR_ID = 1;
+        public static final int LEFT_SHOOTER_MOTOR_ID = 3;
         public static final int RIGHT_SHOOTER_MOTOR_ID = 2;
+
+        public static final double LEFT_MOTOR_SPEED_SPEAKER = 0.7;
+        public static final double RIGHT_MOTOR_SPEED_SPEAKER = 0.7;
     }
 
     public static final class IntakeConstants {
@@ -43,6 +46,11 @@ public final class Constants {
         public static final double INTAKE_FEEDING_SPEED = -5;
         public static final double INTAKE_SHOOTING_SPEED = 1;
 
+    }
+
+    public static final class ClimbingConstants{
+        public static final int RIGHT_CLIMBING_MOTOR_ID = 8;
+        public static final int LEFT_CLIMBING_MOTOR_ID = 9;
     }
 
     public static final class Swerve {

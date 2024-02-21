@@ -25,16 +25,11 @@ public class RobotContainer {
     private final QXDriveController driver = new QXDriveController(DRIVER_CONTROLLER_ID);
     private final XboxOperationController operator = new XboxOperationController(OPERATOR_CONTROLLER_ID);
 
-    /* Drive Controls */
-    private final int translationAxis = XboxController.Axis.kLeftY.value;
-    private final int strafeAxis = XboxController.Axis.kLeftX.value;
-    private final int rotationAxis = XboxController.Axis.kRightX.value;
-
     /* Driver Buttons */
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final SuperStructure structure = new SuperStructure();
+    private final SuperStructure structure = new SuperStructure(operator.getClosedPositionButton());
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -65,7 +60,10 @@ public class RobotContainer {
 
         operator.getToGroundPositionButton().onTrue(structure.groundIntake());
         operator.getToAmpPositionButton().onTrue(structure.ampIntake());
-        operator.getToSpeakerPositionButton().onTrue(structure.speakerIntake());
+        operator.getClosedPositionButton().onTrue(structure.closeIntake());
+
+        operator.getShootingButton().onTrue(structure.shootIntake(5));
+        operator.getWarmingButton().onTrue(structure.warmShooter());
     }
 
     /**

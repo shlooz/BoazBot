@@ -31,9 +31,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
   public IntakePositionSubsystem() {
       angleMotor = new CANSparkMax(ANGLE_MOTOR_ID, MotorType.kBrushless);
       angleMotor.restoreFactoryDefaults();
-      angleMotor.setIdleMode(IdleMode.kCoast);
       angleMotor.setClosedLoopRampRate(0.5);
-      updateSparkMaxPID(angleController, 0.03, 0, 0, 0, 0, -1, 1);
       angleMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
       angleMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
       angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)(MAX_DEG));
@@ -43,6 +41,8 @@ public class IntakePositionSubsystem extends SubsystemBase {
 
       angleController = angleMotor.getPIDController();
       angleController.setFeedbackDevice(angleAbsoluteEncoder);
+      updateSparkMaxPID(angleController, 0.03, 0, 0, 0, 0, -1, 1);
+
 
       angleAbsoluteEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
       angleAbsoluteEncoder.setPositionConversionFactor(360);
@@ -60,6 +60,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
   public void setMotor(double speed){
     angleMotor.set(speed);
   }
+
 
   public TrapezoidProfile.State getCurrentState(){
     return new TrapezoidProfile.State(
@@ -95,7 +96,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
     
     return new ProxyCommand(() -> new TrapezoidProfileCommand(
         new TrapezoidProfile(ANGLE_CONSTRAINTS), 
-        state -> extracted(state),
+        state -> controlAngleMotor(state),
         () -> new TrapezoidProfile.State(angle, 0),
         () -> getCurrentState(),
         this)
@@ -105,8 +106,11 @@ public class IntakePositionSubsystem extends SubsystemBase {
     }
 
 
-  private void extracted(State state) {
-    double feedforward = 0;
+  private void controlAngleMotor(State state) {
+     double feedforward = 0;
+    // double feedForward = kS_ANGLE * Math.signum(state.velocity)
+    //                                         + kG_ANGLE * Math.cos(state.position)
+    //                                         + kV_ANGLE * state.velocity;
     angleController.setReference(state.position, CANSparkMax.ControlType.kPosition,
             0,
             feedforward, SparkPIDController.ArbFFUnits.kVoltage);

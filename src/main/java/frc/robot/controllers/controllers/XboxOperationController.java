@@ -30,7 +30,7 @@ public class XboxOperationController {
         shootingButton = new JoystickButton(controller, 4);
     }
 
-    public Trigger getToSpeakerPositionButton(){
+    public Trigger getClosedPositionButton(){
         return groundIntakeButton;
     }
     public Trigger getToAmpPositionButton(){

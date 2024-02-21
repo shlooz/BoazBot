@@ -1,44 +1,81 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.IntakeFeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.IntakePositionSubsystem;
+
 import static frc.robot.Constants.IntakeConstants.*;
+import static frc.robot.Constants.ShooterConstants.*;
+
 
 public class SuperStructure {
     public final IntakePositionSubsystem intakePositionSubsystem;
     public final IntakeFeederSubsystem intakeFeederSubsystem;
     public final ShooterSubsystem shooterSubsystem;
 
-    public SuperStructure(){
+    public final Trigger endIntakeTrigger;
+
+    public SuperStructure(Trigger endIntakeTrigger){
         intakePositionSubsystem = new IntakePositionSubsystem();
         intakeFeederSubsystem = new IntakeFeederSubsystem();
         shooterSubsystem = new ShooterSubsystem();   
+
+        this.endIntakeTrigger = endIntakeTrigger;
+        
     }
 
     public Command groundIntake(){
-        return intakeFeederSubsystem.feedingCommand(INTAKE_FEEDING_SPEED).
-            alongWith(intakePositionSubsystem.moveToAngle(GROUND_INTAKE_ANGLE));
+        return intakePositionSubsystem.moveToAngle(GROUND_INTAKE_ANGLE)
+            //.alongWith(intakeFeederSubsystem.feedingCommand(0))
+            .andThen(new WaitUntilCommand(endIntakeTrigger))
+            .andThen(closeIntake());
+    }
+
+    public Command shootSpeaker(){
+        return warmShooter()
+                .andThen(new WaitUntilCommand(endIntakeTrigger))
+                .andThen(closeIntake())
+                .andThen(releaseToShooter())
+                .andThen(closeShooter());
     }
 
     public Command ampIntake(){
-        return intakeFeederSubsystem.feedingCommand(0).
-            alongWith(intakePositionSubsystem.moveToAngle(AMP_INTAKE_ANGLE));
+        return intakePositionSubsystem.moveToAngle(SPEAKER_INTAKE_ANGLE)
+            //.alongWith(intakeFeederSubsystem.feedingCommand(0))
+            .andThen(new WaitUntilCommand(endIntakeTrigger))
+            .andThen(closeIntake());
     }
 
-    public Command speakerIntake(){
-        return intakeFeederSubsystem.feedingCommand(0).
-            alongWith(intakePositionSubsystem.moveToAngle(SPEAKER_INTAKE_ANGLE));
+    public Command closeIntake(){
+        return intakePositionSubsystem.moveToAngle(SPEAKER_INTAKE_ANGLE);
+        //.alongWith(intakeFeederSubsystem.feedingCommand(0));
     }
     
+    public Command warmShooter(){
+        return shooterSubsystem.shootingCommand(LEFT_MOTOR_SPEED_SPEAKER, RIGHT_MOTOR_SPEED_SPEAKER);
+    }
+    
+    public Command closeShooter(){
+        return shooterSubsystem.shootingCommand();
+    }
+
+    public Command releaseToShooter(){
+        return intakeFeederSubsystem.feedingCommand(0.2)
+                .andThen(new WaitCommand(3));
+                //.andThen(intakeFeederSubsystem.feedingCommand(0));
+    }
+
     public Command shootIntake(double speed){
         return intakeFeederSubsystem.feedingCommand(speed).
-            andThen(new ScheduleCommand(Commands.waitSeconds(0.5))).
-            andThen(speakerIntake());
+            withTimeout(0.5).
+                andThen(closeIntake()).
+                alongWith(warmShooter());
     }
+
 
 
 }
