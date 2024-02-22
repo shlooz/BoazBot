@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import static frc.robot.Constants.*;
 import frc.robot.autos.*;
@@ -57,7 +58,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         driver.getResetGyroButton().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-
+        
         operator.getToGroundPositionButton().onTrue(structure.groundIntake());
         operator.getToAmpPositionButton().onTrue(structure.ampIntake());
         operator.getClosedPositionButton().onTrue(structure.closeIntake());

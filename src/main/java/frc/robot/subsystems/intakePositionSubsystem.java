@@ -32,23 +32,21 @@ public class IntakePositionSubsystem extends SubsystemBase {
       angleMotor = new CANSparkMax(ANGLE_MOTOR_ID, MotorType.kBrushless);
       angleMotor.restoreFactoryDefaults();
       angleMotor.setClosedLoopRampRate(0.5);
-      angleMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-      angleMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-      angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)(MAX_DEG));
-      angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)(MIN_DEG));
+      //angleMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+      //angleMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+      //angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)(MAX_DEG));
+      //angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)(MIN_DEG));
       angleMotor.setIdleMode(IdleMode.kBrake);
       angleMotor.setSmartCurrentLimit(ANGLE_MOTOR_CURRENT_LIMIT);
-
-      angleController = angleMotor.getPIDController();
-      angleController.setFeedbackDevice(angleAbsoluteEncoder);
-      updateSparkMaxPID(angleController, 0.03, 0, 0, 0, 0, -1, 1);
-
 
       angleAbsoluteEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
       angleAbsoluteEncoder.setPositionConversionFactor(360);
       angleAbsoluteEncoder.setZeroOffset(ANGLE_OFFSET);
       angleAbsoluteEncoder.setVelocityConversionFactor(velocityConversionFactor);
 
+      angleController = angleMotor.getPIDController();
+      angleController.setFeedbackDevice(angleAbsoluteEncoder);
+      updateSparkMaxPID(angleController, 5, 0, 0, 0, 0, -1, 1);
   }
 
   

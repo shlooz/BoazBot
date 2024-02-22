@@ -24,19 +24,22 @@ public class XboxOperationController {
 
         groundIntakeButton = new JoystickButton(controller, 1);
         ampIntakeButton = new JoystickButton(controller, 2);
-        speakerIntakeButton = new JoystickButton(controller, 3);
+        speakerIntakeButton = new JoystickButton(controller, 4);
 
-        warmingShooterButton = new JoystickButton(controller, 4);
-        shootingButton = new JoystickButton(controller, 4);
+        warmingShooterButton = new JoystickButton(controller, 5);
+        shootingButton = new JoystickButton(controller, 6);
     }
 
     public Trigger getClosedPositionButton(){
+        System.out.println(3);
         return groundIntakeButton;
     }
     public Trigger getToAmpPositionButton(){
+        System.out.println(2);
         return ampIntakeButton;
     }
     public Trigger getToGroundPositionButton(){
+        System.out.println(1);
         return speakerIntakeButton;
     }
 

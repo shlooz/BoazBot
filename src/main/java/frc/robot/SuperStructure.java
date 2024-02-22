@@ -30,7 +30,7 @@ public class SuperStructure {
 
     public Command groundIntake(){
         return intakePositionSubsystem.moveToAngle(GROUND_INTAKE_ANGLE)
-            //.alongWith(intakeFeederSubsystem.feedingCommand(0))
+            .alongWith(intakeFeederSubsystem.feedingCommand(0))
             .andThen(new WaitUntilCommand(endIntakeTrigger))
             .andThen(closeIntake());
     }
@@ -45,14 +45,14 @@ public class SuperStructure {
 
     public Command ampIntake(){
         return intakePositionSubsystem.moveToAngle(SPEAKER_INTAKE_ANGLE)
-            //.alongWith(intakeFeederSubsystem.feedingCommand(0))
+            .alongWith(intakeFeederSubsystem.feedingCommand(0))
             .andThen(new WaitUntilCommand(endIntakeTrigger))
             .andThen(closeIntake());
     }
 
     public Command closeIntake(){
-        return intakePositionSubsystem.moveToAngle(SPEAKER_INTAKE_ANGLE);
-        //.alongWith(intakeFeederSubsystem.feedingCommand(0));
+        return intakePositionSubsystem.moveToAngle(SPEAKER_INTAKE_ANGLE)
+        .alongWith(intakeFeederSubsystem.feedingCommand(0));
     }
     
     public Command warmShooter(){
@@ -65,8 +65,8 @@ public class SuperStructure {
 
     public Command releaseToShooter(){
         return intakeFeederSubsystem.feedingCommand(0.2)
-                .andThen(new WaitCommand(3));
-                //.andThen(intakeFeederSubsystem.feedingCommand(0));
+                .andThen(new WaitCommand(3))
+                .andThen(intakeFeederSubsystem.feedingCommand(0));
     }
 
     public Command shootIntake(double speed){
