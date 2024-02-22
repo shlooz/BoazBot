@@ -46,12 +46,13 @@ public class IntakePositionSubsystem extends SubsystemBase {
 
       angleController = angleMotor.getPIDController();
       angleController.setFeedbackDevice(angleAbsoluteEncoder);
-      updateSparkMaxPID(angleController, 5, 0, 0, 0, 0, -1, 1);
+      updateSparkMaxPID(angleController, 0.12, 0, 0, 0, 0, -1, 1);
   }
 
   
   @Override
   public void periodic() {
+    System.out.println(angleAbsoluteEncoder.getPosition());
     // This method will be called once per scheduler run
   }
   

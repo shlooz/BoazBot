@@ -56,8 +56,11 @@ public class SuperStructure {
     }
     
     public Command warmShooter(){
-        return shooterSubsystem.shootingCommand(LEFT_MOTOR_SPEED_SPEAKER, RIGHT_MOTOR_SPEED_SPEAKER);
+        return shooterSubsystem.shootingCommand(LEFT_MOTOR_SPEED_SPEAKER, RIGHT_MOTOR_SPEED_SPEAKER)
+            .withTimeout(5)
+            .andThen(closeShooter());
     }
+    
     
     public Command closeShooter(){
         return shooterSubsystem.shootingCommand();
