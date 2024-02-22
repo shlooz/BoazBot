@@ -30,7 +30,7 @@ public class SuperStructure {
 
     public Command groundIntake(){
         return intakePositionSubsystem.moveToAngle(GROUND_INTAKE_ANGLE)
-            .alongWith(intakeFeederSubsystem.feedingCommand(0))
+            .alongWith(intakeFeederSubsystem.feedingCommand(-0.2))
             .andThen(new WaitUntilCommand(endIntakeTrigger))
             .andThen(closeIntake());
     }

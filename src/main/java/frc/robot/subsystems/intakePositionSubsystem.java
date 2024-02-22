@@ -46,7 +46,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
 
       angleController = angleMotor.getPIDController();
       angleController.setFeedbackDevice(angleAbsoluteEncoder);
-      updateSparkMaxPID(angleController, 0.12, 0, 0, 0, 0, -1, 1);
+      updateSparkMaxPID(angleController, 0.01, 0, 0, 0, 0, -1, 1);
   }
 
   
@@ -97,8 +97,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
         new TrapezoidProfile(ANGLE_CONSTRAINTS), 
         state -> controlAngleMotor(state),
         () -> new TrapezoidProfile.State(angle, 0),
-        () -> getCurrentState(),
-        this)
+        () -> getCurrentState())
     );
               
   
@@ -106,13 +105,13 @@ public class IntakePositionSubsystem extends SubsystemBase {
 
 
   private void controlAngleMotor(State state) {
-     double feedforward = 0;
-    // double feedForward = kS_ANGLE * Math.signum(state.velocity)
-    //                                         + kG_ANGLE * Math.cos(state.position)
-    //                                         + kV_ANGLE * state.velocity;
+
+    double feedForward = kS_VOLTS * Math.signum(state.velocity)
+        + kG_VOLTS * Math.cos(state.position)
+        + kV_VOLTS * state.velocity;
     angleController.setReference(state.position, CANSparkMax.ControlType.kPosition,
             0,
-            feedforward, SparkPIDController.ArbFFUnits.kVoltage);
+            feedForward, SparkPIDController.ArbFFUnits.kVoltage);
   }
 
   public Command moveToAngle(){
