@@ -45,6 +45,10 @@ public final class Constants {
         public static final double INTAKE_FEEDING_SPEED = -5;
         public static final double INTAKE_SHOOTING_SPEED = 1;
 
+        public static final double kG_VOLTS = 0.5;
+        public static final double kS_VOLTS = 0.1;
+        public static final double kV_VOLTS = 0;
+
     }
 
     public static final class ClimbingConstants{

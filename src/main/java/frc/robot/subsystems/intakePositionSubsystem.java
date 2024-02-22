@@ -106,10 +106,10 @@ public class IntakePositionSubsystem extends SubsystemBase {
 
 
   private void controlAngleMotor(State state) {
-     double feedforward = 0;
-    // double feedForward = kS_ANGLE * Math.signum(state.velocity)
-    //                                         + kG_ANGLE * Math.cos(state.position)
-    //                                         + kV_ANGLE * state.velocity;
+    //  double feedforward = 0;
+    double feedForward = kS_VOLTS * Math.signum(state.velocity)
+                                            + kG_VOLTS * Math.cos(state.position)
+                                            + kV_VOLTS * state.velocity;
     angleController.setReference(state.position, CANSparkMax.ControlType.kPosition,
             0,
             feedforward, SparkPIDController.ArbFFUnits.kVoltage);
