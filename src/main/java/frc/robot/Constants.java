@@ -21,29 +21,28 @@ public final class Constants {
         public static final int LEFT_SHOOTER_MOTOR_ID = 3;
         public static final int RIGHT_SHOOTER_MOTOR_ID = 2;
 
-        public static final double LEFT_MOTOR_SPEED_SPEAKER = -0.5;
-        public static final double RIGHT_MOTOR_SPEED_SPEAKER = -0.5;
+        public static final double LEFT_MOTOR_SPEED_SPEAKER = -0.3;
+        public static final double RIGHT_MOTOR_SPEED_SPEAKER = -0.3;
     }
 
     public static final class IntakeConstants {
-        //public static final double ANGLE_OFFSET = 31.92;
-        public static final double ANGLE_OFFSET = 0;
+        public static final double ANGLE_OFFSET = 31.92 + 22;
         public static final int velocityConversionFactor = 1;
 
 
 
         public static final double MIN_DEG = 0;
-        public static final double MAX_DEG = 180;
+        public static final double MAX_DEG = 200;
         public static final int ANGLE_MOTOR_CURRENT_LIMIT = 30;
-        public static final TrapezoidProfile.Constraints ANGLE_CONSTRAINTS = new TrapezoidProfile.Constraints(2, 5);
+        public static final TrapezoidProfile.Constraints ANGLE_CONSTRAINTS = new TrapezoidProfile.Constraints(20, 50);
 
 
         public static final int FEEDING_MOTOR_ID = 6;
         public static final int ANGLE_MOTOR_ID = 5;
 
-        public static final double GROUND_INTAKE_ANGLE = 50;
+        public static final double GROUND_INTAKE_ANGLE = 0;
         public static final double AMP_INTAKE_ANGLE = 80;
-        public static final double SPEAKER_INTAKE_ANGLE = 120;
+        public static final double SPEAKER_INTAKE_ANGLE = 180;
 
         public static final double INTAKE_FEEDING_SPEED = -5;
         public static final double INTAKE_SHOOTING_SPEED = 1;

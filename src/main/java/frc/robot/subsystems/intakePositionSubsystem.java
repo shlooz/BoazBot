@@ -18,6 +18,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ProxyCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.TrapezoidProfileCommand;
 
@@ -46,18 +47,26 @@ public class IntakePositionSubsystem extends SubsystemBase {
 
       angleController = angleMotor.getPIDController();
       angleController.setFeedbackDevice(angleAbsoluteEncoder);
-      updateSparkMaxPID(angleController, 0.01, 0, 0, 0, 0, -1, 1);
+      updateSparkMaxPID(angleController, 0.003, 0.0005, 0.002, 0, 0, -1, 1);
   }
 
   
   @Override
   public void periodic() {
-    System.out.println(angleAbsoluteEncoder.getPosition());
+    //System.out.println(angleAbsoluteEncoder.getPosition());
     // This method will be called once per scheduler run
   }
   
   public void setMotor(double speed){
     angleMotor.set(speed);
+  }
+
+  public double getIntakePosition(){
+    return angleAbsoluteEncoder.getPosition();
+  }
+
+  public Command runAngleMotorCommand(double speed){
+    return new RunCommand(() -> setMotor(speed));
   }
 
 
@@ -93,19 +102,25 @@ public class IntakePositionSubsystem extends SubsystemBase {
 
           )); */
     
-    return new ProxyCommand(() -> new TrapezoidProfileCommand(
-        new TrapezoidProfile(ANGLE_CONSTRAINTS), 
-        state -> controlAngleMotor(state),
-        () -> new TrapezoidProfile.State(angle, 0),
-        () -> getCurrentState())
-    );
+    // return new ProxyCommand(() -> new TrapezoidProfileCommand(
+    //     new TrapezoidProfile(ANGLE_CONSTRAINTS), 
+    //     state -> controlAngleMotor(state),
+    //     () -> new TrapezoidProfile.State(angle, 0),
+    //     () -> getCurrentState())
+    // );
+
+    return new RunCommand(
+      () -> {
+        //System.out.println("Target Angle: " + angle);
+        angleController.setReference(angle, CANSparkMax.ControlType.kPosition);}, this
+    ).asProxy();
               
   
     }
 
 
   private void controlAngleMotor(State state) {
-     double feedforward = 0;
+     double feedForward = 0;
     // double feedForward = kS_ANGLE * Math.signum(state.velocity)
     //                                         + kG_ANGLE * Math.cos(state.position)
     //                                         + kV_ANGLE * state.velocity;

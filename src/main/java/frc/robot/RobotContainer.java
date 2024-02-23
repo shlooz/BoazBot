@@ -59,13 +59,29 @@ public class RobotContainer {
         /* Driver Buttons */
         driver.getResetGyroButton().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         
-        operator.getToGroundPositionButton().onTrue(structure.groundIntake());
-        operator.getToAmpPositionButton().onTrue(structure.ampIntake());
-        operator.getClosedPositionButton().onTrue(structure.closeIntake());
+        // operator.getToGroundPositionButton().onTrue(structure.groundIntake());
+        // operator.getToAmpPositionButton().onTrue(structure.ampIntake());
+        // operator.getClosedPositionButton().onTrue(structure.closeIntake());
+        
+        // operator.getShootingButton().onTrue(structure.shootIntake(5));
+        // operator.getWarmingButton().onTrue(structure.warmShooter());
 
-        operator.getShootingButton().onTrue(structure.shootIntake(5));
-        operator.getWarmingButton().onTrue(structure.warmShooter());
+
+        operator.getShootingButton().whileTrue(structure.moveIntakeManualy(1));
+        operator.getShootingButton().whileFalse(structure.moveIntakeManualy(0));
+        operator.getWarmingButton().whileFalse(structure.moveIntakeManualy(0));
+        operator.getWarmingButton().whileTrue(structure.moveIntakeManualy(-1));
+
+        operator.getManualIntakeButton().whileTrue(structure.shootIntake(0.4));
+        operator.getManualIntakeButton().whileFalse(structure.shootIntake(0));
+        operator.getToAmpPositionButton().whileFalse(structure.shootIntake(0));
+        operator.getToAmpPositionButton().whileTrue(structure.shootIntake(-0.4));
+
+
+        operator.getClosedPositionButton().toggleOnTrue(structure.warmShooter());
+        operator.getClosedPositionButton().toggleOnFalse(structure.closeShooter());
     }
+    
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

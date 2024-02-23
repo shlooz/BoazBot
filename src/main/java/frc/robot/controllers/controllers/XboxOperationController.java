@@ -15,6 +15,7 @@ public class XboxOperationController {
     public JoystickButton groundIntakeButton;
     public JoystickButton ampIntakeButton;
     public JoystickButton speakerIntakeButton;
+    public JoystickButton manualIntakeButton;
 
     public JoystickButton warmingShooterButton;
     public JoystickButton shootingButton;
@@ -24,6 +25,7 @@ public class XboxOperationController {
 
         groundIntakeButton = new JoystickButton(controller, 1);
         ampIntakeButton = new JoystickButton(controller, 2);
+        manualIntakeButton = new JoystickButton(controller, 3);
         speakerIntakeButton = new JoystickButton(controller, 4);
 
         warmingShooterButton = new JoystickButton(controller, 5);
@@ -31,16 +33,16 @@ public class XboxOperationController {
     }
 
     public Trigger getClosedPositionButton(){
-        System.out.println(3);
         return groundIntakeButton;
     }
     public Trigger getToAmpPositionButton(){
-        System.out.println(2);
         return ampIntakeButton;
     }
     public Trigger getToGroundPositionButton(){
-        System.out.println(1);
         return speakerIntakeButton;
+    }
+    public Trigger getManualIntakeButton(){
+        return manualIntakeButton;
     }
 
     public Trigger getShootingButton(){
@@ -53,4 +55,9 @@ public class XboxOperationController {
     public double getClimbingSpeed(){
         return controller.getRawAxis(1);
     }
+    public double getIntakeSpeed(){
+        System.out.println("button pressed");
+        return controller.getRawAxis(5);
+    }
 }
+

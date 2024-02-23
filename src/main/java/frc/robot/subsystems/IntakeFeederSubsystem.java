@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 import static frc.robot.Constants.IntakeConstants.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeFeederSubsystem extends SubsystemBase {
@@ -32,7 +33,7 @@ public class IntakeFeederSubsystem extends SubsystemBase {
   }
 
   public Command feedingCommand(double speed){
-    return run(() -> feeding(speed));
+    return new RunCommand(() -> feeding(speed));
   }
 
   public Command feedingCommand(){
