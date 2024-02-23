@@ -29,47 +29,21 @@ public class SuperStructure {
     }
 
     public Command groundIntake(){
-        return  intakeFeederSubsystem.feedingCommand(-2)
-            .alongWith(intakePositionSubsystem.moveToAngle(GROUND_INTAKE_ANGLE))
-            .alongWith(intakeFeederSubsystem.feedingCommand(-1))
-            .andThen(new WaitUntilCommand(endIntakeTrigger))
-            .andThen(closeIntake());
+        return intakePositionSubsystem.moveToAngle(GROUND_INTAKE_ANGLE);
     }
-
-    public Command shootSpeaker(){
-        return warmShooter()
-                .andThen(new WaitUntilCommand(endIntakeTrigger))
-                .andThen(closeIntake())
-                .andThen(releaseToShooter())
-                .andThen(shooterSubsystem.shootingCommand());
-    }
-
     public Command ampIntake(){
-        return intakePositionSubsystem.moveToAngle(SPEAKER_INTAKE_ANGLE)
-            .alongWith(intakeFeederSubsystem.feedingCommand(0))
-            .andThen(new WaitUntilCommand(endIntakeTrigger))
-            .andThen(closeIntake());
+        return intakePositionSubsystem.moveToAngle(AMP_INTAKE_ANGLE);
+    }
+    public Command closeIntake(){
+        return intakePositionSubsystem.moveToAngle(SPEAKER_INTAKE_ANGLE);
     }
 
-    public Command closeIntake(){
-        return intakePositionSubsystem.moveToAngle(SPEAKER_INTAKE_ANGLE)
-        .alongWith(intakeFeederSubsystem.feedingCommand())
-        .raceWith(new WaitCommand(10));
-    }
-    
     public Command warmShooter(){
         return shooterSubsystem.shootingCommand(LEFT_MOTOR_SPEED_SPEAKER, RIGHT_MOTOR_SPEED_SPEAKER);
     }
     
     public Command closeShooter(){
-        return shooterSubsystem.shootingCommand(0, 0)
-    }
-    
-
-    public Command releaseToShooter(){
-        return intakeFeederSubsystem.feedingCommand(0.2)
-                .andThen(new WaitCommand(3))
-                .andThen(intakeFeederSubsystem.feedingCommand(0));
+        return shooterSubsystem.shootingCommand(0, 0);
     }
 
     public Command shootIntake(double speed){
@@ -78,8 +52,11 @@ public class SuperStructure {
 
     public Command moveIntakeManualy(double speed){
         System.out.println("angle motor speed is equal to" + speed);
-        return intakePositionSubsystem.runAngleMotorCommand(
-            intakePositionSubsystem.getIntakePosition() == 0 ? speed * 0.5 : 0);
+        return intakePositionSubsystem.runAngleMotorCommand(speed * 0.3);
+    }
+
+    public Command printing(String message){
+        return intakePositionSubsystem.printing(message);
     }
 
 

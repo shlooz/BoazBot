@@ -58,28 +58,29 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         driver.getResetGyroButton().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        
-        // operator.getToGroundPositionButton().onTrue(structure.groundIntake());
-        // operator.getToAmpPositionButton().onTrue(structure.ampIntake());
-        // operator.getClosedPositionButton().onTrue(structure.closeIntake());
-        
-        // operator.getShootingButton().onTrue(structure.shootIntake(5));
-        // operator.getWarmingButton().onTrue(structure.warmShooter());
+
+        {
+            operator.getClosedPositionButton().onTrue(structure.closeIntake());
+            operator.getToAmpPositionButton().onTrue(structure.ampIntake());
+            operator.getToGroundPositionButton().onTrue(structure.groundIntake());
+
+        }
+
+        {
+            operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(1));
+            operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+            operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+            operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-1));
+
+            operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(0.5));
+            operator.getIntakeIntakingButton().whileFalse(structure.shootIntake(0));
+            operator.getIntakeOutakingButton().whileFalse(structure.shootIntake(0));
+            operator.getIntakeOutakingButton().whileTrue(structure.shootIntake(-0.5));
 
 
-        operator.getShootingButton().whileTrue(structure.moveIntakeManualy(1));
-        operator.getShootingButton().whileFalse(structure.moveIntakeManualy(0));
-        operator.getWarmingButton().whileFalse(structure.moveIntakeManualy(0));
-        operator.getWarmingButton().whileTrue(structure.moveIntakeManualy(-1));
-
-        operator.getManualIntakeButton().whileTrue(structure.shootIntake(0.4));
-        operator.getManualIntakeButton().whileFalse(structure.shootIntake(0));
-        operator.getToAmpPositionButton().whileFalse(structure.shootIntake(0));
-        operator.getToAmpPositionButton().whileTrue(structure.shootIntake(-0.4));
-
-
-        operator.getClosedPositionButton().toggleOnTrue(structure.warmShooter());
-        operator.getClosedPositionButton().toggleOnFalse(structure.closeShooter());
+            operator.getWarmingButton().whileTrue(structure.warmShooter());
+            operator.getWarmingButton().whileFalse(structure.closeShooter());
+        }
     }
     
 
