@@ -10,25 +10,17 @@ import frc.robot.controllers.interfaces.DriverController;
 
 /** Add your docs here. */
 public class QXDriveController implements DriverController {
-
-
+    
     private GenericHID controller;
     private JoystickButton fieldOrientedButton;
     private JoystickButton resetGyroButton;
-    private JoystickButton yeetingButton;
-    private JoystickButton snapButton;
-    private JoystickButton balancingButton;
-    private JoystickButton reverseButton;
+
 
     public QXDriveController(int id) {
         controller = new GenericHID(id);
 
         fieldOrientedButton = new JoystickButton(controller, 1);
         resetGyroButton = new JoystickButton(controller, 2);
-        balancingButton = new JoystickButton(controller, 3);
-        yeetingButton = new JoystickButton(controller, 4);
-        snapButton = new JoystickButton(controller, 5);
-        reverseButton = new JoystickButton(controller, 6);
     
     }
 
@@ -62,25 +54,14 @@ public class QXDriveController implements DriverController {
         return resetGyroButton;
     }
 
-    @Override
-    public JoystickButton getYeetingButton() {
-        return yeetingButton;
-    }
+
 
     @Override
-    public JoystickButton getSnapButton() {
-        return snapButton;
+    public double getShooterPotentiometer() {
+        System.out.println(controller.getRawAxis(5));
+        return controller.getRawAxis(5) * 10;
     }
 
-    @Override
-    public JoystickButton getBalancingButton() {
-        return balancingButton;
-    }
-
-    @Override
-    public JoystickButton getReversingButton() {
-        return reverseButton;
-    }
 
 
 

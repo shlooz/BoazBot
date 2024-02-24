@@ -24,11 +24,16 @@ import edu.wpi.first.wpilibj2.command.TrapezoidProfileCommand;
 
 
 public class IntakePositionSubsystem extends SubsystemBase {
+  //private static final double INTAKE_POS_CUR_LIMIT = 0;
   /** Creates a new intakePositionSubsystem. */
     static CANSparkMax angleMotor;
     SparkPIDController angleController;
     AbsoluteEncoder angleAbsoluteEncoder;
-  
+    
+    
+    double targetAngle;
+    boolean stopIntakeFlag;
+
   public IntakePositionSubsystem() {
       angleMotor = new CANSparkMax(ANGLE_MOTOR_ID, MotorType.kBrushless);
       angleMotor.restoreFactoryDefaults();
@@ -39,7 +44,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
       angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)(MAX_DEG));
       angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)(MIN_DEG)); */
 
-      angleMotor.setIdleMode(IdleMode.kBrake);
+      angleMotor.setIdleMode(IdleMode.kCoast);
       angleMotor.setSmartCurrentLimit(ANGLE_MOTOR_CURRENT_LIMIT);
 
       angleAbsoluteEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -52,25 +57,29 @@ public class IntakePositionSubsystem extends SubsystemBase {
       angleController.setFeedbackDevice(angleAbsoluteEncoder);
 
       
-      updateSparkMaxPID(angleController, 0.02, 0, 0, 0, 0, -1, 1);
+      updateSparkMaxPID(angleController, 10, 0, 0, 0, 0, -1, 1);
+      
+      targetAngle = 0;
+      stopIntakeFlag = false;
   }
 
   
   @Override
   public void periodic() {
-    System.out.println(angleAbsoluteEncoder.getPosition());
-    System.out.println(angleAbsoluteEncoder.getPosition() < 5 || angleAbsoluteEncoder.getPosition() > 300);
+    //System.out.println(angleAbsoluteEncoder.getPosition());
+    //System.out.println(targetAngle);
+    //System.out.println(angleMotor.getOutputCurrent());
+    //System.out.println(stopIntakeFlag && !isCurrFine());
 
+    if (stopIntakeFlag && !isCurrFine()) {
+      stopIntakeMovment();
+    }
+  }
     
     
     // This method will be called once per scheduler run
-  }
-
-  // @Override
-  // public void disabledInit() {
-
-  // }
   
+
   public static void enableCoast(boolean enable){
     if (enable){
       angleMotor.setIdleMode(IdleMode.kCoast);
@@ -79,13 +88,33 @@ public class IntakePositionSubsystem extends SubsystemBase {
       angleMotor.setIdleMode(IdleMode.kBrake);
     }
   }
-
+  public boolean isCurrFine(){
+    return (angleMotor.getOutputCurrent() < INTAKE_POS_CUR_LIMIT);
+  }
 
   public void setMotor(double speed){
     angleMotor.set(speed);
   }
 
-  public double shouldPositionGetDown(double speed){
+  public Command startIntakeMovment(double speed){
+    RunCommand command = new RunCommand(() -> {
+      stopIntakeFlag = true;
+      setMotor(speed);
+    });
+    // return this.runOnce(() -> {
+    //   stopIntakeFlag = true;
+    //   setMotor(speed);
+    // });
+
+    return command;
+  }
+
+  public void stopIntakeMovment(){
+      stopIntakeFlag = false;
+      setMotor(0);
+  }
+
+  /* public double shouldPositionGetDown(double speed){
     if (angleAbsoluteEncoder.getPosition() > 180){
       if (angleAbsoluteEncoder.getPosition() > 300){
         if (speed > 0){
@@ -96,13 +125,22 @@ public class IntakePositionSubsystem extends SubsystemBase {
         return 0;
       } 
       
-    }
+    } 
 
     return speed;
-  }
+  } */
 
   public Command runAngleMotorCommand(double speed){
     return new RunCommand(() -> setMotor(speed));
+  }
+
+  public Command moveIntakeOnCurrent(double speed){
+    return new RunCommand(() -> {
+      while (angleMotor.getOutputCurrent() < INTAKE_POS_CUR_LIMIT) {
+        setMotor(speed);
+      }
+      setMotor(0);
+    });
   }
 
   public Command printing(String message){
@@ -148,6 +186,8 @@ public class IntakePositionSubsystem extends SubsystemBase {
     //     () -> new TrapezoidProfile.State(angle, 0),
     //     () -> getCurrentState())
     // );
+    
+    targetAngle = angle;
 
     return new RunCommand(
       () -> {

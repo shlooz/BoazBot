@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import static frc.robot.Constants.*;
+import static frc.robot.Constants.IntakeConstants.INTAKE_FEEDING_SPEED;
+import static frc.robot.Constants.IntakeConstants.INTAKE_SHOOTING_SPEED;
+import static frc.robot.Constants.IntakeConstants.MANUAL_INTAKE_SPEED;
+
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.controllers.controllers.QXDriveController;
@@ -59,6 +63,7 @@ public class RobotContainer {
         /* Driver Buttons */
         driver.getResetGyroButton().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
 
+        /* operator PID controller */
         {
             operator.getClosedPositionButton().onTrue(structure.closeIntake());
             operator.getToAmpPositionButton().onTrue(structure.ampIntake());
@@ -66,23 +71,31 @@ public class RobotContainer {
 
         }
 
-        {
-            operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(1));
-            operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-            operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-            operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-1));
+        /* operatpr manual controll */
+         {
+            //   operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
+            //   operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+            //   operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+            //   operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
+              
+            /*  
+            operator.getManualDownIntakeButton().onTrue(structure.moveIntakeUntillCurr(MANUAL_INTAKE_SPEED, false));
+            operator.getManualUpIntakeButton().onTrue(structure.moveIntakeUntillCurr(MANUAL_INTAKE_SPEED, true));
+            */
 
-            operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(0.5));
+            operator.getManualDownIntakeButton().onTrue(structure.moveIntakeUntillCurr(MANUAL_INTAKE_SPEED, true));
+            operator.getManualUpIntakeButton().onTrue(structure.moveIntakeUntillCurr(MANUAL_INTAKE_SPEED, false));
+
+            operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));
             operator.getIntakeIntakingButton().whileFalse(structure.shootIntake(0));
             operator.getIntakeOutakingButton().whileFalse(structure.shootIntake(0));
-            operator.getIntakeOutakingButton().whileTrue(structure.shootIntake(-0.5));
+            operator.getIntakeOutakingButton().whileTrue(structure.shootIntake(INTAKE_SHOOTING_SPEED));
 
-
-            operator.getWarmingButton().whileTrue(structure.warmShooter());
+            operator.getWarmingButton().whileTrue(structure.warmShooter(driver.getShooterPotentiometer()));
             operator.getWarmingButton().whileFalse(structure.closeShooter());
         }
-    }
     
+    }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

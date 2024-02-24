@@ -12,6 +12,7 @@ import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
+
     public static final double STICK_DEADBAND = 0.05;
 
     public static final int DRIVER_CONTROLLER_ID = 0;
@@ -42,9 +43,14 @@ public final class Constants {
         public static final double GROUND_INTAKE_ANGLE = 0;
         public static final double AMP_INTAKE_ANGLE = 80;
         public static final double SPEAKER_INTAKE_ANGLE = 180;
+        public static final double MANUAL_INTAKE_SPEED = 0.5;
 
         public static final double INTAKE_FEEDING_SPEED = -5;
-        public static final double INTAKE_SHOOTING_SPEED = 1;
+        public static final double INTAKE_SHOOTING_SPEED = 7;
+        
+        public static final double INTAKE_POS_CUR_LIMIT = 1;
+
+
 
     }
 
