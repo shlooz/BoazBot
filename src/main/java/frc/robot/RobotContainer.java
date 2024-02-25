@@ -63,7 +63,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         driver.getResetGyroButton().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-
+        driver.ADDBUTTONHERE.onTrue(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
         /* operator PID controller */
         {
             /*
