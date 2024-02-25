@@ -21,8 +21,6 @@ public class SwerveModule {
     private TalonFX mDriveMotor;
     private CANcoder angleEncoder;
 
-    double absolutePosition;
-
     private final SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(Constants.Swerve.DRIVE_KS, Constants.Swerve.DRIVE_KV, Constants.Swerve.DRIVE_KA);
 
     /* drive motor control requests */
@@ -53,11 +51,7 @@ public class SwerveModule {
 
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
         desiredState = SwerveModuleState.optimize(desiredState, getState().angle); 
-
-        Rotation2d angle_error = desiredState.angle.minus(getCANcoder().minus(angleOffset));
-
-        mAngleMotor.setControl(anglePosition.withPosition(mAngleMotor.getPosition().getValueAsDouble() + angle_error.getRotations()));
-        // mAngleMotor.setControl(anglePosition.withPosition(desiredState.angle.getRotations()));
+        mAngleMotor.setControl(anglePosition.withPosition(desiredState.angle.getRotations()));
         setSpeed(desiredState, isOpenLoop);
     }
 
@@ -78,11 +72,11 @@ public class SwerveModule {
     }
 
     public void resetToAbsolute(){
-        absolutePosition = getCANcoder().getRotations() - angleOffset.getRotations();
-        // System.out.println(angleOffset.getRotations() + " and " + getCANcoder().getRotations());
-        // System.out.println(absolutePosition);
-        // System.out.println(mAngleMotor.setPosition(absolutePosition));
-        // System.out.println(mAngleMotor.getPosition());
+        double absolutePosition = getCANcoder().getRotations() - angleOffset.getRotations();
+        System.out.println(angleOffset.getRotations() + " and " + getCANcoder().getRotations());
+        System.out.println(absolutePosition);
+        System.out.println(mAngleMotor.setPosition(absolutePosition));
+        System.out.println(mAngleMotor.getPosition());
     }
 
     public SwerveModuleState getState(){
