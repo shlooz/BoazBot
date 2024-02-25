@@ -65,7 +65,7 @@ public class SuperStructure {
 
     public Command moveIntakeUntillCurr(double speed, boolean direction){
         //return intakePositionSubsystem.runAngleMotorCommand(direction ? speed : -speed);
-        return intakePositionSubsystem.startIntakeMovment(direction ? 1.4 * speed : -speed)
+        return intakePositionSubsystem.startIntakeMovment(direction ? speed : -speed)
             .raceWith(new WaitCommand(1));
     }
 

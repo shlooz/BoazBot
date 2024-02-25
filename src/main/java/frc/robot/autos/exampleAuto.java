@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
+import frc.robot.SuperStructure;
+
 public class exampleAuto extends SequentialCommandGroup {
     public exampleAuto(Swerve s_Swerve){
         TrajectoryConfig config =

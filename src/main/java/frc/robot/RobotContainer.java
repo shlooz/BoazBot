@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import static frc.robot.Constants.*;
+import static frc.robot.Constants.IntakeConstants.AUTOMATIC_INTAKE_SPEED;
 import static frc.robot.Constants.IntakeConstants.INTAKE_FEEDING_SPEED;
 import static frc.robot.Constants.IntakeConstants.INTAKE_SHOOTING_SPEED;
 import static frc.robot.Constants.IntakeConstants.MANUAL_INTAKE_SPEED;
@@ -65,26 +66,24 @@ public class RobotContainer {
 
         /* operator PID controller */
         {
+            /*
             operator.getClosedPositionButton().onTrue(structure.closeIntake());
             operator.getToAmpPositionButton().onTrue(structure.ampIntake());
             operator.getToGroundPositionButton().onTrue(structure.groundIntake());
+            */
 
         }
 
         /* operatpr manual controll */
          {
-            //   operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
-            //   operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-            //   operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-            //   operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
+              operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
+              operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+              operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+              operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
               
-            /*  
-            operator.getManualDownIntakeButton().onTrue(structure.moveIntakeUntillCurr(MANUAL_INTAKE_SPEED, false));
-            operator.getManualUpIntakeButton().onTrue(structure.moveIntakeUntillCurr(MANUAL_INTAKE_SPEED, true));
-            */
 
-            operator.getManualDownIntakeButton().onTrue(structure.moveIntakeUntillCurr(MANUAL_INTAKE_SPEED, true));
-            operator.getManualUpIntakeButton().onTrue(structure.moveIntakeUntillCurr(MANUAL_INTAKE_SPEED, false));
+            operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillCurr(AUTOMATIC_INTAKE_SPEED, true));
+            operator.getClosedPositionButton().onTrue(structure.moveIntakeUntillCurr(AUTOMATIC_INTAKE_SPEED, false));
 
             operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));
             operator.getIntakeIntakingButton().whileFalse(structure.shootIntake(0));
@@ -104,7 +103,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new exampleAuto(s_Swerve);
+        return Autos.shootingAuto();
     }
 
     public void onEnable(){

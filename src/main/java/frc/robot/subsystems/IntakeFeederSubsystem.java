@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import static frc.robot.Constants.IntakeConstants.*;
 
@@ -21,6 +22,7 @@ public class IntakeFeederSubsystem extends SubsystemBase {
   public IntakeFeederSubsystem() {
     feedingMotor = new CANSparkMax(FEEDING_MOTOR_ID, MotorType.kBrushless);
     feedingMotor.restoreFactoryDefaults();
+    feedingMotor.setIdleMode(IdleMode.kCoast);
   }
 
   @Override
