@@ -22,8 +22,8 @@ public final class Constants {
         public static final int LEFT_SHOOTER_MOTOR_ID = 3;
         public static final int RIGHT_SHOOTER_MOTOR_ID = 2;
 
-        public static final double LEFT_MOTOR_SPEED_SPEAKER = -0.6;
-        public static final double RIGHT_MOTOR_SPEED_SPEAKER = -0.6;
+        public static final double LEFT_MOTOR_SPEED_SPEAKER = -7;
+        public static final double RIGHT_MOTOR_SPEED_SPEAKER = -7;
     }
 
     public static final class IntakeConstants {
@@ -47,11 +47,12 @@ public final class Constants {
         public static final double MANUAL_INTAKE_SPEED = 0.5;
         public static final double AUTOMATIC_INTAKE_SPEED = 0.8;
 
-        public static final double INTAKE_FEEDING_SPEED = -4;
-        public static final double INTAKE_SHOOTING_SPEED = 3;
+        public static final double INTAKE_FEEDING_SPEED = -0.5;
+        public static final double INTAKE_SHOOTING_SPEED = 1;
         
         public static final double INTAKE_POS_CUR_LIMIT = 1;
 
+        public static final double INTAKE_POS_TIME = 0.9;
 
 
     }

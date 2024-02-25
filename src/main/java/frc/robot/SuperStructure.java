@@ -43,11 +43,12 @@ public class SuperStructure {
     }
 
     public Command warmShooter(double QxShooterSpeedpotentiometer){
-        double leftShooterMotorSpeed = QxShooterSpeedpotentiometer;
-        double rightShooterMotorSpeed = QxShooterSpeedpotentiometer;
-
+        double Qxconvertion = (QxShooterSpeedpotentiometer + 1) * 0.5;
         //return shooterSubsystem.shootingCommand(leftShooterMotorSpeed, rightShooterMotorSpeed);
-        return shooterSubsystem.shootingCommand(LEFT_MOTOR_SPEED_SPEAKER, RIGHT_MOTOR_SPEED_SPEAKER);
+        //System.out.println(Qxconvertion);
+        return shooterSubsystem.shootingCommand(
+            LEFT_MOTOR_SPEED_SPEAKER * Qxconvertion, 
+            RIGHT_MOTOR_SPEED_SPEAKER * Qxconvertion);
     }
     
     public Command closeShooter(){
@@ -59,14 +60,14 @@ public class SuperStructure {
     }
 
     public Command moveIntakeManualy(double speed){
-        System.out.println("angle motor speed is equal to" + speed);
+        //System.out.println("angle motor speed is equal to" + speed);
         return intakePositionSubsystem.runAngleMotorCommand(speed);
     }
 
     public Command moveIntakeUntillCurr(double speed, boolean direction){
         //return intakePositionSubsystem.runAngleMotorCommand(direction ? speed : -speed);
         return intakePositionSubsystem.startIntakeMovment(direction ? speed : -speed)
-            .raceWith(new WaitCommand(1));
+            .raceWith(new WaitCommand(INTAKE_POS_TIME));
     }
 
     public Command printing(String message){

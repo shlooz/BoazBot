@@ -19,19 +19,26 @@ public class IntakeFeederSubsystem extends SubsystemBase {
   
   private final CANSparkMax feedingMotor;
 
+  private double Qxpotentiometer;
+
   public IntakeFeederSubsystem() {
     feedingMotor = new CANSparkMax(FEEDING_MOTOR_ID, MotorType.kBrushless);
     feedingMotor.restoreFactoryDefaults();
-    feedingMotor.setIdleMode(IdleMode.kCoast);
+    feedingMotor.setIdleMode(IdleMode.kCoast);//#endregion
+
+    Qxpotentiometer = 0;
+
   }
 
   @Override
   public void periodic() {
+    // System.out.println(Qxpotentiometer);
     // This method will be called once per scheduler run
   }
 
   public void feeding(double speed){
-      feedingMotor.set(speed);
+    Qxpotentiometer = (speed * 2) - 1;
+    feedingMotor.set(speed);
   }
 
   public Command feedingCommand(double speed){

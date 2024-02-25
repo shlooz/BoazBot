@@ -58,8 +58,7 @@ public class QXDriveController implements DriverController {
 
     @Override
     public double getShooterPotentiometer() {
-        System.out.println(controller.getRawAxis(5));
-        return controller.getRawAxis(5) * 10;
+        return controller.getRawAxis(5);
     }
 
 

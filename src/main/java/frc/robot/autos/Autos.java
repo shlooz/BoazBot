@@ -17,10 +17,10 @@ public class Autos {
         structure = new SuperStructure(null);
     }
     
-    public static Command shootingAuto(){
-        return structure.warmShooter(1)
-            .raceWith(new WaitCommand(5))
-            .andThen(structure.shootIntake(INTAKE_SHOOTING_SPEED));
+    // public static Command shootingAuto(){
+    //     return structure.warmShooter(1)
+    //         .raceWith(new WaitCommand(5))
+    //         .andThen(structure.shootIntake(INTAKE_SHOOTING_SPEED));
 
-    }
+    // }
 }

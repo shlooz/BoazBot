@@ -92,7 +92,7 @@ public class XboxOperationController {
         return controller.getRawAxis(1);
     }
     public double getIntakeSpeed(){
-        System.out.println("button pressed");
+        // System.out.println("button pressed");
         return controller.getRawAxis(5);
     }
 }
