@@ -36,6 +36,7 @@ public class Swerve extends SubsystemBase {
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
     }
 
+
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
@@ -108,7 +109,7 @@ public class Swerve extends SubsystemBase {
 
     public void resetModulesToAbsolute(){
         for(SwerveModule mod : mSwerveMods){
-            mod.resetToAbsolute();
+             mod.resetToAbsolute();
         }
     }
 
@@ -121,5 +122,7 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
+
+        System.out.println(mSwerveMods[2].getState());
     }
 }
