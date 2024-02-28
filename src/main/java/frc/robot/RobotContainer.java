@@ -63,7 +63,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         driver.getResetGyroButton().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        driver.ADDBUTTONHERE.onTrue(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
+        driver.getModulesToAbsuluteButton().onTrue(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
         /* operator PID controller */
         {
             /*
@@ -95,7 +95,6 @@ public class RobotContainer {
         }
     
     }
-
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *

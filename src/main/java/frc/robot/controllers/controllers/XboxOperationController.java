@@ -34,8 +34,8 @@ public class XboxOperationController {
         ampIntakeButton = new JoystickButton(controller, 2);
         closeIntakeButton = new JoystickButton(controller, 4);
 
-        warmingShooterButton = new JoystickButton(controller, 5);
-        shootingButton = new JoystickButton(controller, 6);
+        warmingShooterButton = new JoystickButton(controller, 6);
+        shootingButton = new JoystickButton(controller, 7);
 
         manualIntakeDownButton = new Trigger(() -> downArrow());
         manualIntakeUpButton = new Trigger(() -> upArrow());

@@ -14,4 +14,6 @@ public interface DriverController {
     public JoystickButton getResetGyroButton();
 
     public double getShooterPotentiometer();
+
+    public JoystickButton getModulesToAbsuluteButton();
 }

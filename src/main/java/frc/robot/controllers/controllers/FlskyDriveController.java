@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.controllers.interfaces.DriverController;
 
 /** Add your docs here. */
-public class QXDriveController implements DriverController {
+public class FlskyDriveController implements DriverController {
     
     private GenericHID controller;
     private JoystickButton fieldOrientedButton;
@@ -17,13 +17,12 @@ public class QXDriveController implements DriverController {
     private JoystickButton reseteModuleAbsuluteButton;
 
 
-    public QXDriveController(int id) {
+    public FlskyDriveController(int id) {
         controller = new GenericHID(id);
 
         fieldOrientedButton = new JoystickButton(controller, 1);
-        resetGyroButton = new JoystickButton(controller, 2);
-
-        reseteModuleAbsuluteButton = new JoystickButton(controller, 4);
+        resetGyroButton = new JoystickButton(controller, 7);
+        reseteModuleAbsuluteButton = new JoystickButton(controller, 5);
     
     }
 
@@ -31,27 +30,26 @@ public class QXDriveController implements DriverController {
 
     @Override
     public double getXSpeed() {
-        return controller.getRawAxis(2) 
-        * ((controller.getRawAxis(4) + 1) / 2);
+        return controller.getRawAxis(0) 
+        * ((controller.getRawAxis(5) + 1) / 2);
     }
 
     @Override
     public double getYSpeed() {
         return controller.getRawAxis(1)
-        * ((controller.getRawAxis(4) + 1) / 2);
+        * ((controller.getRawAxis(5) + 1) / 2);
     }
 
     @Override
     public double getRotationSpeed() {
         return controller.getRawAxis(3)
-        * ((controller.getRawAxis(4) + 1) / 2);
+        * ((controller.getRawAxis(5) + 1) / 2);
     }
 
     @Override
     public boolean getFieldOriented() {
         return fieldOrientedButton.getAsBoolean();
     }
-
     @Override
     public JoystickButton getResetGyroButton() {
         return resetGyroButton;
@@ -60,10 +58,9 @@ public class QXDriveController implements DriverController {
     public JoystickButton getModulesToAbsuluteButton(){
         return reseteModuleAbsuluteButton;
     }
-
     @Override
     public double getShooterPotentiometer() {
-        return controller.getRawAxis(5);
+        return 1;
     }
 
 
