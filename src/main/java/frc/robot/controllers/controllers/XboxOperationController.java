@@ -10,22 +10,21 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /** Add your docs here. */
 public class XboxOperationController {
-    public GenericHID controller;
+    private GenericHID controller;
 
-    public JoystickButton groundIntakeButton;
-    public JoystickButton ampIntakeButton;
-    public JoystickButton closeIntakeButton;
+    private JoystickButton groundIntakeButton;
+    private JoystickButton ampIntakeButton;
+    private JoystickButton closeIntakeButton;
 
-    public Trigger manualIntakeDownButton;
-    public Trigger manualIntakeUpButton;
+    private Trigger manualIntakeDownButton;
+    private Trigger manualIntakeUpButton;
 
-    public Trigger intakingButton;
-    public Trigger outakingButton;
+    private Trigger intakingButton;
+    private Trigger outakingButton;
 
-    
-
-    public JoystickButton warmingShooterButton;
-    public JoystickButton shootingButton;
+    private JoystickButton warmingShooterButton;
+    private JoystickButton shootingButton;
+    private JoystickButton slowShootingButton;
 
     public XboxOperationController(int ID){
         controller = new GenericHID(ID);
@@ -36,6 +35,7 @@ public class XboxOperationController {
 
         warmingShooterButton = new JoystickButton(controller, 6);
         shootingButton = new JoystickButton(controller, 7);
+        slowShootingButton = new JoystickButton(controller, 3);
 
         manualIntakeDownButton = new Trigger(() -> downArrow());
         manualIntakeUpButton = new Trigger(() -> upArrow());
@@ -81,8 +81,11 @@ public class XboxOperationController {
     }
 
 
-    public Trigger getShootingButton(){
+    public Trigger getSpeakerShootingButton(){
         return shootingButton;
+    }
+    public Trigger getSlowShootingButton(){
+        return slowShootingButton;
     }
     public Trigger getWarmingButton(){
         return warmingShooterButton;
@@ -91,6 +94,7 @@ public class XboxOperationController {
     public double getClimbingSpeed(){
         return controller.getRawAxis(1);
     }
+
     public double getIntakeSpeed(){
         // System.out.println("button pressed");
         return controller.getRawAxis(5);

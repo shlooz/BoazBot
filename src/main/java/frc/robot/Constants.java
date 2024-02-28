@@ -24,6 +24,9 @@ public final class Constants {
 
         public static final double LEFT_MOTOR_SPEED_SPEAKER = -7;
         public static final double RIGHT_MOTOR_SPEED_SPEAKER = -7;
+
+        public static final double LEFT_MOTOR_SPEED_SLOW = -3;
+        public static final double RIGHT_MOTOR_SPEED_SLOW = -3;
     }
 
     public static final class IntakeConstants {
