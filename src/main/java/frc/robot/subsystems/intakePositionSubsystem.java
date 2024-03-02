@@ -33,6 +33,8 @@ public class IntakePositionSubsystem extends SubsystemBase {
     
     double targetAngle;
     boolean stopIntakeFlag;
+    boolean supp;
+    double currAngle;
 
   public IntakePositionSubsystem() {
       angleMotor = new CANSparkMax(ANGLE_MOTOR_ID, MotorType.kBrushless);
@@ -44,7 +46,6 @@ public class IntakePositionSubsystem extends SubsystemBase {
       angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)(MAX_DEG));
       angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)(MIN_DEG)); */
 
-      angleMotor.setIdleMode(IdleMode.kCoast);
       angleMotor.setSmartCurrentLimit(ANGLE_MOTOR_CURRENT_LIMIT);
 
       angleAbsoluteEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -61,6 +62,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
       
       targetAngle = 0;
       stopIntakeFlag = false;
+      supp = false;
   }
 
   
@@ -70,6 +72,8 @@ public class IntakePositionSubsystem extends SubsystemBase {
     //System.out.println(targetAngle);
     //System.out.println(angleMotor.getOutputCurrent());
     //System.out.println(stopIntakeFlag && !isCurrFine());
+    System.out.println(supp);
+    System.out.println(angleAbsoluteEncoder.getPosition());
 
     if (stopIntakeFlag && !isCurrFine()) {
       stopIntakeMovment();
@@ -155,6 +159,15 @@ public class IntakePositionSubsystem extends SubsystemBase {
     );
   }
 
+  public double getIntakeAngle(){
+    return angleAbsoluteEncoder.getPosition();
+  }
+
+  public boolean isIntakeInAngle(double angle){
+    supp = (getIntakeAngle() < angle);
+    return (getIntakeAngle() < angle);
+  }
+
   /**
    * @param angle
    * @return
@@ -180,20 +193,18 @@ public class IntakePositionSubsystem extends SubsystemBase {
 
           )); */
     
-    // return new ProxyCommand(() -> new TrapezoidProfileCommand(
-    //     new TrapezoidProfile(ANGLE_CONSTRAINTS), 
-    //     state -> controlAngleMotor(state),
-    //     () -> new TrapezoidProfile.State(angle, 0),
-    //     () -> getCurrentState())
-    // );
+    return new ProxyCommand(() -> new TrapezoidProfileCommand(
+        new TrapezoidProfile(ANGLE_CONSTRAINTS), 
+        state -> controlAngleMotor(state),
+        () -> new TrapezoidProfile.State(angle, 0),
+        () -> getCurrentState())
+    );
     
-    targetAngle = angle;
-
-    return new RunCommand(
-      () -> {
-        //System.out.println("Target Angle: " + angle);
-        angleController.setReference(angle, CANSparkMax.ControlType.kPosition);}, this
-    ).asProxy();
+    // return new RunCommand(
+    //   () -> {
+    //     //System.out.println("Target Angle: " + angle);
+    //     angleController.setReference(angle, CANSparkMax.ControlType.kPosition);}, this
+    // ).asProxy();
               
   
     }

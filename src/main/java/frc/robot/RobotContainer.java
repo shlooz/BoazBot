@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import static frc.robot.Constants.*;
+import static frc.robot.Constants.IntakeConstants.AMP_INTAKE_ANGLE;
 import static frc.robot.Constants.IntakeConstants.AUTOMATIC_INTAKE_SPEED;
 import static frc.robot.Constants.IntakeConstants.INTAKE_FEEDING_SPEED;
 import static frc.robot.Constants.IntakeConstants.INTAKE_SHOOTING_SPEED;
 import static frc.robot.Constants.IntakeConstants.MANUAL_INTAKE_SPEED;
 
+import frc.robot.SuperStructure.SuperStructureAutos;
 import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.controllers.controllers.QXDriveController;
@@ -36,6 +38,7 @@ public class RobotContainer {
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
     private final SuperStructure structure = new SuperStructure(operator.getClosedPositionButton());
+    private final SuperStructure.SuperStructureAutos Autos = structure.new SuperStructureAutos();
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -66,11 +69,12 @@ public class RobotContainer {
         driver.getModulesToAbsuluteButton().onTrue(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
         /* operator PID controller */
         {
-            /*
-            operator.getClosedPositionButton().onTrue(structure.closeIntake());
-            operator.getToAmpPositionButton().onTrue(structure.ampIntake());
-            operator.getToGroundPositionButton().onTrue(structure.groundIntake());
-            */
+            
+            //operator.getClosedPositionButton().onTrue(structure.closeIntake());
+            //operator.getToAmpPositionButton().onTrue(structure.ampIntake());
+            //operator.getToGroundPositionButton().onTrue(structure.groundIntake());
+            
+            operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(MANUAL_INTAKE_SPEED / 2, AMP_INTAKE_ANGLE, true));
 
         }
 
@@ -100,10 +104,10 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    // public Command getAutonomousCommand() {
-    //     // An ExampleCommand will run in autonomous
-    //     return Autos.shootingAuto();
-    // }
+    public Command getAutonomousCommand() {
+        // An ExampleCommand will run in autonomous
+        return Autos.shootAndScootAuto();
+    }
 
     public void onEnable(){
         s_Swerve.resetModulesToAbsolute();

@@ -43,15 +43,15 @@ public final class Constants {
         public static final int FEEDING_MOTOR_ID = 6;
         public static final int ANGLE_MOTOR_ID = 5;
 
-        public static final double GROUND_INTAKE_ANGLE = 0;
-        public static final double AMP_INTAKE_ANGLE = 80;
-        public static final double SPEAKER_INTAKE_ANGLE = 180;
+        public static final double GROUND_INTAKE_ANGLE = 50;
+        public static final double AMP_INTAKE_ANGLE = 120;
+        public static final double SPEAKER_INTAKE_ANGLE = 150;
 
         public static final double MANUAL_INTAKE_SPEED = 0.5;
         public static final double AUTOMATIC_INTAKE_SPEED = 0.8;
 
         public static final double INTAKE_FEEDING_SPEED = -0.3;
-        public static final double INTAKE_SHOOTING_SPEED = 0.3;
+        public static final double INTAKE_SHOOTING_SPEED = 0.575;
         
         public static final double INTAKE_POS_CUR_LIMIT = 1;
 
