@@ -40,6 +40,7 @@ public class RobotContainer {
     private final SuperStructure structure = new SuperStructure(operator.getStopIntakeButton());
     private final SuperStructure.SuperStructureAutos Autos = structure.new SuperStructureAutos();
 
+    SendableChooser<Command> auto_chooser = new SendableChooser<>();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -52,6 +53,13 @@ public class RobotContainer {
                 () -> driver.getFieldOriented()
             )
         );
+
+        auto_chooser.setDefaultOption("Shoot and Scoot", Autos.shootAndScootAuto());
+        auto_chooser.addOption("Shoot", Autos.shootingAuto());
+        auto_chooser.addOption("Taxi", Autos.taxiAuto());
+        auto_chooser.addOption("Do Nothing", new InstantCommand());
+
+        SmartDashboard.putData("Auto Chooser", auto_chooser);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -110,7 +118,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return Autos.shootAndScootAuto();
+        return auto_chooser.getSelected();
     }
 
     public void onEnable(){
