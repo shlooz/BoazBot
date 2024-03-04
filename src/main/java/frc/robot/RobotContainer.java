@@ -37,7 +37,7 @@ public class RobotContainer {
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
-    private final SuperStructure structure = new SuperStructure(operator.getClosedPositionButton());
+    private final SuperStructure structure = new SuperStructure(operator.getStopIntakeButton());
     private final SuperStructure.SuperStructureAutos Autos = structure.new SuperStructureAutos();
 
 
@@ -74,19 +74,23 @@ public class RobotContainer {
             //operator.getToAmpPositionButton().onTrue(structure.ampIntake());
             //operator.getToGroundPositionButton().onTrue(structure.groundIntake());
             
-            operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(MANUAL_INTAKE_SPEED / 2, AMP_INTAKE_ANGLE, true));
-
         }
 
         /* operatpr manual controll */
          {
+            //   operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
+            //   operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+            //   operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+            //   operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
+            
               operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
               operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
               operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
               operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
               
 
-            operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillCurr(AUTOMATIC_INTAKE_SPEED, true));
+            operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillAngle(MANUAL_INTAKE_SPEED / 1.25, 20, true));
+            operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(MANUAL_INTAKE_SPEED / 2, 120, true));
             operator.getClosedPositionButton().onTrue(structure.moveIntakeUntillCurr(AUTOMATIC_INTAKE_SPEED, false));
 
             operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));

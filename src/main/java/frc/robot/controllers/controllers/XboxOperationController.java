@@ -15,6 +15,7 @@ public class XboxOperationController {
     private JoystickButton groundIntakeButton;
     private JoystickButton ampIntakeButton;
     private JoystickButton closeIntakeButton;
+    private JoystickButton stopIntakeButton;
 
     private Trigger manualIntakeDownButton;
     private Trigger manualIntakeUpButton;
@@ -24,18 +25,17 @@ public class XboxOperationController {
 
     private JoystickButton warmingShooterButton;
     private JoystickButton shootingButton;
-    private JoystickButton slowShootingButton;
 
     public XboxOperationController(int ID){
         controller = new GenericHID(ID);
 
         groundIntakeButton = new JoystickButton(controller, 1);
         ampIntakeButton = new JoystickButton(controller, 2);
+        stopIntakeButton = new JoystickButton(controller, 3);
         closeIntakeButton = new JoystickButton(controller, 4);
 
         warmingShooterButton = new JoystickButton(controller, 6);
         shootingButton = new JoystickButton(controller, 7);
-        slowShootingButton = new JoystickButton(controller, 3);
 
         manualIntakeDownButton = new Trigger(() -> downArrow());
         manualIntakeUpButton = new Trigger(() -> upArrow());
@@ -66,6 +66,9 @@ public class XboxOperationController {
     public Trigger getToGroundPositionButton(){
         return groundIntakeButton;
     }
+    public Trigger getStopIntakeButton(){
+        return stopIntakeButton;
+    }
 
     public Trigger getManualDownIntakeButton(){
         return manualIntakeDownButton;
@@ -83,9 +86,6 @@ public class XboxOperationController {
 
     public Trigger getSpeakerShootingButton(){
         return shootingButton;
-    }
-    public Trigger getSlowShootingButton(){
-        return slowShootingButton;
     }
     public Trigger getWarmingButton(){
         return warmingShooterButton;

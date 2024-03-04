@@ -81,7 +81,8 @@ public class SuperStructure {
         //return intakePositionSubsystem.runAngleMotorCommand(direction ? speed : -speed);
         return intakePositionSubsystem.startIntakeMovment(direction ? speed : -speed)
             .raceWith(new WaitUntilCommand(
-                () -> intakePositionSubsystem.isIntakeInAngle(angle)));
+                () -> intakePositionSubsystem.isIntakeInAngle(angle)))
+            .raceWith(new WaitUntilCommand(endIntakeTrigger));
     }
 
     public Command printing(String message){

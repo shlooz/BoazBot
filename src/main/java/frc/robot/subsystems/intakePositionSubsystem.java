@@ -41,11 +41,6 @@ public class IntakePositionSubsystem extends SubsystemBase {
       angleMotor.restoreFactoryDefaults();
       angleMotor.setClosedLoopRampRate(0.5);
 
-      /*angleMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-      angleMotor.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-      angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)(MAX_DEG));
-      angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)(MIN_DEG)); */
-
       angleMotor.setSmartCurrentLimit(ANGLE_MOTOR_CURRENT_LIMIT);
 
       angleAbsoluteEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -164,7 +159,6 @@ public class IntakePositionSubsystem extends SubsystemBase {
   }
 
   public boolean isIntakeInAngle(double angle){
-    supp = (getIntakeAngle() < angle);
     return (getIntakeAngle() < angle);
   }
 
