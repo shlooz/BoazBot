@@ -67,8 +67,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
     //System.out.println(targetAngle);
     //System.out.println(angleMotor.getOutputCurrent());
     //System.out.println(stopIntakeFlag && !isCurrFine());
-    System.out.println(supp);
-    System.out.println(angleAbsoluteEncoder.getPosition());
+
 
     if (stopIntakeFlag && !isCurrFine()) {
       stopIntakeMovment();
@@ -159,7 +158,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
   }
 
   public boolean isIntakeInAngle(double angle){
-    return (getIntakeAngle() < angle);
+    return (getIntakeAngle() < angle || getIntakeAngle() > 300);
   }
 
   /**

@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -40,6 +42,7 @@ public class RobotContainer {
     private final SuperStructure structure = new SuperStructure(operator.getStopIntakeButton());
     private final SuperStructure.SuperStructureAutos Autos = structure.new SuperStructureAutos();
 
+    SendableChooser<Command> auto_chooser = new SendableChooser<>();
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -52,6 +55,13 @@ public class RobotContainer {
                 () -> driver.getFieldOriented()
             )
         );
+
+        auto_chooser.setDefaultOption("Shoot and Scoot", Autos.shootAndScootAuto());
+        auto_chooser.addOption("Shoot", Autos.shootingAuto());
+        auto_chooser.addOption("Taxi", Autos.taxiAuto());
+        auto_chooser.addOption("Do Nothing", new InstantCommand());
+
+        SmartDashboard.putData("Auto Chooser", auto_chooser);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -89,8 +99,8 @@ public class RobotContainer {
               operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
               
 
-            operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillAngle(MANUAL_INTAKE_SPEED / 1.25, 20, true));
-            operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(MANUAL_INTAKE_SPEED / 2, 120, true));
+            operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED / 1.5, 30, true));
+            operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED / 3.4, 115, true));
             operator.getClosedPositionButton().onTrue(structure.moveIntakeUntillCurr(AUTOMATIC_INTAKE_SPEED, false));
 
             operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));
@@ -110,7 +120,7 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return Autos.shootAndScootAuto();
+        return auto_chooser.getSelected();
     }
 
     public void onEnable(){

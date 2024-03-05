@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -78,7 +79,6 @@ public class SuperStructure {
 
     
     public Command moveIntakeUntillAngle(double speed, double angle, boolean direction){
-        //return intakePositionSubsystem.runAngleMotorCommand(direction ? speed : -speed);
         return intakePositionSubsystem.startIntakeMovment(direction ? speed : -speed)
             .raceWith(new WaitUntilCommand(
                 () -> intakePositionSubsystem.isIntakeInAngle(angle)))
@@ -107,7 +107,8 @@ public class SuperStructure {
                 0, 
                 0)
                 .raceWith(new WaitCommand(2.5))
-                .andThen(SwerveSubsystem.driveCommand(0, 0, 0));
+                .andThen(
+                    new InstantCommand(() -> SwerveSubsystem.driveCommand(0, 0, 0)));
         }
 
         public Command shootAndScootAuto(){
