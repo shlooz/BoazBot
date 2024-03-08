@@ -157,8 +157,10 @@ public class IntakePositionSubsystem extends SubsystemBase {
     return angleAbsoluteEncoder.getPosition();
   }
 
-  public boolean isIntakeInAngle(double angle){
-    return (getIntakeAngle() < angle || getIntakeAngle() > 300);
+  public boolean isIntakeInAngle(double angle, boolean direction){
+    return (direction ? 
+      getIntakeAngle() < angle || getIntakeAngle() > 300 : 
+      getIntakeAngle() > angle && getIntakeAngle() < 300);
   }
 
   /**

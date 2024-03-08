@@ -81,7 +81,7 @@ public class SuperStructure {
     public Command moveIntakeUntillAngle(double speed, double angle, boolean direction){
         return intakePositionSubsystem.startIntakeMovment(direction ? speed : -speed)
             .raceWith(new WaitUntilCommand(
-                () -> intakePositionSubsystem.isIntakeInAngle(angle)))
+                () -> intakePositionSubsystem.isIntakeInAngle(angle, direction)))
             .raceWith(new WaitUntilCommand(endIntakeTrigger));
     }
 
@@ -105,10 +105,11 @@ public class SuperStructure {
             return SwerveSubsystem.driveCommand(
                 -1, 
                 0, 
-                0)
+                0,
+                true
+                )
                 .raceWith(new WaitCommand(2.5))
-                .andThen(
-                    new InstantCommand(() -> SwerveSubsystem.driveCommand(0, 0, 0)));
+                .andThen(SwerveSubsystem.driveCommand(0, 0, 0, true));
         }
 
         public Command shootAndScootAuto(){

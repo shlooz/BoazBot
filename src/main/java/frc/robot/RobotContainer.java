@@ -10,14 +10,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import static frc.robot.Constants.*;
-import static frc.robot.Constants.IntakeConstants.AMP_INTAKE_ANGLE;
-import static frc.robot.Constants.IntakeConstants.AUTOMATIC_INTAKE_SPEED;
-import static frc.robot.Constants.IntakeConstants.INTAKE_FEEDING_SPEED;
-import static frc.robot.Constants.IntakeConstants.INTAKE_SHOOTING_SPEED;
-import static frc.robot.Constants.IntakeConstants.MANUAL_INTAKE_SPEED;
+import static frc.robot.Constants.IntakeConstants.*;
 
-import frc.robot.SuperStructure.SuperStructureAutos;
-import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.controllers.controllers.QXDriveController;
 import frc.robot.controllers.controllers.XboxOperationController;
@@ -99,9 +93,9 @@ public class RobotContainer {
               operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
               
 
-            operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED / 1.5, 30, true));
-            operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED / 3.4, 115, true));
-            operator.getClosedPositionButton().onTrue(structure.moveIntakeUntillCurr(AUTOMATIC_INTAKE_SPEED, false));
+            operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED, 30, true));
+            operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED / 2.5, 115, true));
+            operator.getClosedPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED, 180, false));
 
             operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));
             operator.getIntakeIntakingButton().whileFalse(structure.shootIntake(0));

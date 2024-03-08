@@ -26,7 +26,7 @@ public class Swerve extends SubsystemBase {
     public AHRS gyro;
 
     public Swerve() {
-        gyro = new AHRS();
+        gyro = new AHRS(SerialPort.Port.kMXP);
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -59,7 +59,7 @@ public class Swerve extends SubsystemBase {
         }
     } 
 
-    public Command driveCommand(double xSpeed, double ySpeed, double angularSpeed){
+    public Command driveCommand(double xSpeed, double ySpeed, double angularSpeed, boolean isOpenLoop){
         return new RunCommand(() ->
             drive(new Translation2d(xSpeed, ySpeed), 
                 angularSpeed, 
