@@ -50,8 +50,8 @@ public final class Constants {
         public static final double MANUAL_INTAKE_SPEED = 0.5;
         public static final double AUTOMATIC_INTAKE_SPEED = 0.8;
 
-        public static final double INTAKE_FEEDING_SPEED = -0.52;
-        public static final double INTAKE_SHOOTING_SPEED = 0.52;
+        public static final double INTAKE_FEEDING_SPEED = -0.45;
+        public static final double INTAKE_SHOOTING_SPEED = 0.45;
         
         public static final double INTAKE_POS_CUR_LIMIT = 1;
 
