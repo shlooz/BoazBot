@@ -8,8 +8,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
+import static frc.robot.Constants.STICK_DEADBAND;
+
+import java.util.function.*;
+
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,8 +22,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
@@ -39,6 +46,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+        System.out.println(translation);
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -59,14 +67,27 @@ public class Swerve extends SubsystemBase {
         }
     } 
 
-    public Command driveCommand(double xSpeed, double ySpeed, double angularSpeed, boolean isOpenLoop){
+    public Command driveCommand(DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier angularSpeed, BooleanSupplier isOpenLoop){
         return new RunCommand(() ->
-            drive(new Translation2d(xSpeed, ySpeed), 
-                angularSpeed, 
+
+            drive(new Translation2d(
+                                    MathUtil.applyDeadband(xSpeed.getAsDouble(), STICK_DEADBAND),
+                                    MathUtil.applyDeadband(ySpeed.getAsDouble(), STICK_DEADBAND)), 
+                MathUtil.applyDeadband(angularSpeed.getAsDouble(), STICK_DEADBAND), 
                 true, 
-                false)    
+                isOpenLoop.getAsBoolean())
+        
+                , this
         );
     }
+
+    public Command driveConstantSpeed(double x, double y, double rotations, double time){
+        return new RunCommand(() -> drive(new Translation2d(x,y), rotations, true, true), this)
+                    .withTimeout(time)
+                    .andThen(new InstantCommand(() -> drive(new Translation2d(),0, true, true)));
+    }
+
+
 
     /* Used by SwerveControllerCommand in Auto */
     public void setModuleStates(SwerveModuleState[] desiredStates) {

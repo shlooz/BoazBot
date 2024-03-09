@@ -32,7 +32,6 @@ public class RobotContainer {
     /* Driver Buttons */
 
     /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
     private final SuperStructure structure = new SuperStructure(operator.getStopIntakeButton());
     private final SuperStructure.SuperStructureAutos Autos = structure.new SuperStructureAutos();
 
@@ -40,9 +39,8 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        s_Swerve.setDefaultCommand(
-            new TeleopSwerve(
-                s_Swerve,
+        structure.SwerveSubsystem.setDefaultCommand(
+            structure.drive(
                 () -> -driver.getXSpeed(), 
                 () -> driver.getYSpeed(), 
                 () -> driver.getRotationSpeed(), 
@@ -69,8 +67,8 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        driver.getResetGyroButton().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        driver.getModulesToAbsuluteButton().onTrue(new InstantCommand(() -> s_Swerve.resetModulesToAbsolute()));
+        driver.getResetGyroButton().onTrue(new InstantCommand(() -> structure.SwerveSubsystem.zeroHeading()));
+        driver.getModulesToAbsuluteButton().onTrue(new InstantCommand(() -> structure.SwerveSubsystem.resetModulesToAbsolute()));
         /* operator PID controller */
         {
             
@@ -118,6 +116,6 @@ public class RobotContainer {
     }
 
     public void onEnable(){
-        s_Swerve.resetModulesToAbsolute();
+        structure.SwerveSubsystem.resetModulesToAbsolute();
     }
 }

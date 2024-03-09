@@ -13,7 +13,7 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
 
-    public static final double STICK_DEADBAND = 0.05;
+    public static final double STICK_DEADBAND = 0.5;
 
     public static final int DRIVER_CONTROLLER_ID = 0;
     public static final int OPERATOR_CONTROLLER_ID = 1;

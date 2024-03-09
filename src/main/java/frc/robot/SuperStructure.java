@@ -16,11 +16,14 @@ import static frc.robot.Constants.ClimbingConstants.*;
 import static frc.robot.Constants.IntakeConstants.*;
 import static frc.robot.Constants.ShooterConstants.*;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 public class SuperStructure {
     private final IntakePositionSubsystem intakePositionSubsystem;
     private final IntakeFeederSubsystem intakeFeederSubsystem;
     private final ShooterSubsystem shooterSubsystem;
-    private final Swerve SwerveSubsystem;
+    public final Swerve SwerveSubsystem;
     // private final ClimbingSubsystem climbingSubsystem;
 
     private final Trigger endIntakeTrigger;
@@ -61,11 +64,16 @@ public class SuperStructure {
     }
 
     public Command closeShooter() {
-        return shooterSubsystem.shootingCommand(0, 0);
+        return new InstantCommand(() -> shooterSubsystem.setShootingSpeed(0, 0));
     }
+
 
     public Command shootIntake(double speed) {
         return intakeFeederSubsystem.feedingCommand(speed);
+    }
+
+    public Command stopIntake(){
+        return new InstantCommand(() -> intakeFeederSubsystem.feeding(0));
     }
 
     public Command moveIntakeManualy(double speed) {
@@ -91,26 +99,31 @@ public class SuperStructure {
     //     return climbingSubsystem.climbingCommand( -CLIMBING_SPEED, CLIMBING_SPEED);
     // }
 
+    public Command drive(DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier rotationSpeed, BooleanSupplier isOpenLoop){
+        return SwerveSubsystem.driveCommand(
+                xSpeed, 
+                ySpeed, 
+                rotationSpeed, 
+                isOpenLoop);
+    }
+
 
     public class SuperStructureAutos {
         public Command shootingAuto() {
             return warmShooter(1)
                     .raceWith(new WaitCommand(2))
-                    .andThen(shootIntake(INTAKE_SHOOTING_SPEED))
-                    .raceWith(new WaitCommand(4))
+                    .andThen(shootIntake(INTAKE_SHOOTING_SPEED)
+                            .raceWith(new WaitCommand(4)))
                     .andThen(closeShooter())
-                    .alongWith(shootIntake(0))
-                    .raceWith(new WaitCommand(5));
+                    .andThen(stopIntake());
         }
 
         public Command taxiAuto() {
-            return SwerveSubsystem.driveCommand(
+            return SwerveSubsystem.driveConstantSpeed(
                     -1,
                     0,
                     0,
-                    true)
-                    .raceWith(new WaitCommand(2.5))
-                    .andThen(SwerveSubsystem.driveCommand(0, 0, 0, true));
+                    2.5);
         }
 
         public Command shootAndScootAuto() {
