@@ -74,9 +74,9 @@ public class RobotContainer {
         /* operator PID controller */
         {
             
-            //operator.getClosedPositionButton().onTrue(structure.closeIntake());
-            //operator.getToAmpPositionButton().onTrue(structure.ampIntake());
-            //operator.getToGroundPositionButton().onTrue(structure.groundIntake());
+            operator.getClosedPositionButton().onTrue(structure.closeIntake());
+            operator.getToAmpPositionButton().onTrue(structure.ampIntake());
+            operator.getToGroundPositionButton().onTrue(structure.groundIntake());
             
         }
 
@@ -93,9 +93,9 @@ public class RobotContainer {
               operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
               
 
-            operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED, 30, true));
-            operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED / 2.5, 115, true));
-            operator.getClosedPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED, 180, false));
+            // operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED, 30, true));
+            // operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED / 2.5, 115, true));
+            // operator.getClosedPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED, 180, false));
 
             operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));
             operator.getIntakeIntakingButton().whileFalse(structure.shootIntake(0));

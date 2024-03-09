@@ -14,12 +14,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.ClimbingConstants.*;
 
-public class climbingSubsystem extends SubsystemBase {
+public class ClimbingSubsystem extends SubsystemBase {
   /** Creates a new climbingSubsystem. */
   CANSparkMax leftClimbingMotor;
   CANSparkMax rightClimbingMotor;
 
-  public climbingSubsystem() {
+  public ClimbingSubsystem() {
     leftClimbingMotor = new CANSparkMax(LEFT_CLIMBING_MOTOR_ID, MotorType.kBrushless);
     rightClimbingMotor = new CANSparkMax(RIGHT_CLIMBING_MOTOR_ID, MotorType.kBrushless);
 
