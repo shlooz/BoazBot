@@ -43,8 +43,8 @@ public final class Constants {
         public static final int ANGLE_MOTOR_ID = 5;
 
         public static final double GROUND_INTAKE_ANGLE = 5;
-        public static final double AMP_INTAKE_ANGLE = 120;
-        public static final double SPEAKER_INTAKE_ANGLE = 186;
+        public static final double AMP_INTAKE_ANGLE = 115;
+        public static final double SPEAKER_INTAKE_ANGLE = 187;
 
         public static final double MANUAL_INTAKE_SPEED = 0.5;
         public static final double AUTOMATIC_INTAKE_SPEED = 0.8;
@@ -69,6 +69,10 @@ public final class Constants {
         public static final int LEFT_CLIMBING_MOTOR_ID = 9;
 
         public static final double CLIMBING_SPEED = 1;
+
+        public static final double CLIMBING_MOTOR_CURR_LIMIT = 20;
+
+        public static final double CLIMBING_CONVERSION_FACTOR = 0.05;
     }
 
     public static final class Swerve {

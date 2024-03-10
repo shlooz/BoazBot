@@ -4,6 +4,9 @@
 
 package frc.robot.controllers.controllers;
 
+import static frc.robot.Constants.STICK_DEADBAND;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -22,6 +25,8 @@ public class XboxOperationController {
 
     private Trigger intakingButton;
     private Trigger outakingButton;
+
+    private Trigger climbingButton;
 
     private JoystickButton warmingShooterButton;
     private JoystickButton shootingButton;
@@ -42,6 +47,8 @@ public class XboxOperationController {
 
         intakingButton = new Trigger(() -> leftArrow());
         outakingButton = new Trigger(() -> rightArrow());
+
+        climbingButton = new Trigger(() -> isClimbingOn());
     }
 
     public boolean upArrow(){
@@ -55,6 +62,10 @@ public class XboxOperationController {
     }
     public boolean leftArrow(){
         return controller.getPOV() == 270;
+    }
+    
+    private boolean isClimbingOn(){
+        return MathUtil.applyDeadband(controller.getRawAxis(1), STICK_DEADBAND) != 0;
     }
 
     public Trigger getClosedPositionButton(){
@@ -90,9 +101,12 @@ public class XboxOperationController {
     public Trigger getWarmingButton(){
         return warmingShooterButton;
     }
-
+    
+    public Trigger getClimbing(){
+        return climbingButton;
+    }
     public double getClimbingSpeed(){
-        return controller.getRawAxis(1);
+        return MathUtil.applyDeadband(controller.getRawAxis(1), STICK_DEADBAND);
     }
 
     public double getIntakeSpeed(){

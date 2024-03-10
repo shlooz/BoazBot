@@ -46,7 +46,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public Command shootingCommand(double leftSpeed, double rightSpeed){
-    return new  RunCommand(() -> setShootingSpeed(leftSpeed, rightSpeed));
+    return new  RunCommand(() -> setShootingSpeed(leftSpeed, rightSpeed), this);
   }
   
   public Command shootingCommand(){

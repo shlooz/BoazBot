@@ -37,7 +37,7 @@ public class IntakeFeederSubsystem extends SubsystemBase {
   }
 
   public Command feedingCommand(double speed){
-    return new RunCommand(() -> feeding(speed));
+    return new RunCommand(() -> feeding(speed), this);
   }
 
   public Command feedingCommand(){

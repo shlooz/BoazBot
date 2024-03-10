@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.ClimbingConstants.*;
 
+import java.util.function.DoubleSupplier;
+
 public class ClimbingSubsystem extends SubsystemBase {
   /** Creates a new climbingSubsystem. */
   CANSparkMax leftClimbingMotor;
@@ -29,6 +31,12 @@ public class ClimbingSubsystem extends SubsystemBase {
     leftClimbingMotor.setIdleMode(IdleMode.kBrake);
     rightClimbingMotor.setIdleMode(IdleMode.kBrake);
 
+    leftClimbingMotor.setInverted(true);
+    rightClimbingMotor.setInverted(false);
+
+    leftClimbingMotor.setSmartCurrentLimit(LEFT_CLIMBING_MOTOR_ID);
+    rightClimbingMotor.setSmartCurrentLimit(LEFT_CLIMBING_MOTOR_ID);
+
   }
 
   @Override
@@ -37,11 +45,11 @@ public class ClimbingSubsystem extends SubsystemBase {
   }
 
   public void climbing(double leftSpeed, double rightSpeed){
-    leftClimbingMotor.set(leftSpeed);
-    rightClimbingMotor.set(rightSpeed);
+    leftClimbingMotor.set(leftSpeed /* CLIMBING_CONVERSION_FACTOR */);
+    rightClimbingMotor.set(rightSpeed /* CLIMBING_CONVERSION_FACTOR*/);
   }
 
-  public Command climbingCommand(double leftSpeed, double rightSpeed){
-    return new RunCommand(() -> climbing(leftSpeed, rightSpeed));
+  public Command climbingCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed){
+    return new RunCommand(() -> climbing(leftSpeed.getAsDouble(), rightSpeed.getAsDouble()), this);
   }
 }

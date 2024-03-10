@@ -101,7 +101,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
   }
 
   public Command runAngleMotorCommand(double speed) {
-    return new RunCommand(() -> setMotor(speed));
+    return new RunCommand(() -> setMotor(speed), this);
   }
 
   public Command moveIntakeOnCurrent(double speed) {
@@ -164,7 +164,8 @@ public class IntakePositionSubsystem extends SubsystemBase {
         new TrapezoidProfile(ANGLE_CONSTRAINTS),
         state -> controlAngleMotor(state),
         () -> new TrapezoidProfile.State(angle, 0),
-        () -> getCurrentState()));
+        () -> getCurrentState(),
+        this));
 
     // return new RunCommand(
     // () -> {

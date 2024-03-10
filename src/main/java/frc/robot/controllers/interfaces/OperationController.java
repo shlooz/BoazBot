@@ -15,6 +15,8 @@ public interface OperationController {
     public double getClimbingSpeed();
     public double getIntakeSpeed();
 
+    public Trigger getIsClimbing();
+
     public Trigger getManualIntakePositionDown();
     public Trigger getManualIntakePositionUp();
 

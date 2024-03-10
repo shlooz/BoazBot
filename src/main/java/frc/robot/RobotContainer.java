@@ -51,6 +51,7 @@ public class RobotContainer {
         auto_chooser.setDefaultOption("Shoot and Scoot", Autos.shootAndScootAuto());
         auto_chooser.addOption("Shoot", Autos.shootingAuto());
         auto_chooser.addOption("Taxi", Autos.taxiAuto());
+        auto_chooser.addOption("Test1", Autos.testPathPlannerAuto());
         auto_chooser.addOption("Do Nothing", new InstantCommand());
 
         SmartDashboard.putData("Auto Chooser", auto_chooser);
@@ -102,6 +103,9 @@ public class RobotContainer {
 
             operator.getWarmingButton().whileTrue(structure.warmShooter(driver.getShooterPotentiometer()));
             operator.getWarmingButton().whileFalse(structure.closeShooter());
+
+            operator.getClimbing().onTrue(
+                    structure.climb(() -> operator.getClimbingSpeed()));
         }
     
     }
