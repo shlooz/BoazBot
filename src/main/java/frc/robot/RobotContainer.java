@@ -69,7 +69,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         driver.getResetGyroButton().onTrue(new InstantCommand(() -> structure.SwerveSubsystem.zeroHeading()));
-        driver.getModulesToAbsuluteButton().onTrue(new InstantCommand(() -> structure.SwerveSubsystem.resetModulesToAbsolute()));
+        //driver.getModulesToAbsuluteButton().onTrue(new InstantCommand(() -> structure.SwerveSubsystem.resetModulesToAbsolute()));
         /* operator PID controller */
         {
             
@@ -81,20 +81,11 @@ public class RobotContainer {
 
         /* operatpr manual controll */
          {
-            //   operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
-            //   operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-            //   operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-            //   operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
-            
-              operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
-              operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-              operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-              operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
-              
-
-            // operator.getToGroundPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED, 30, true));
-            // operator.getToAmpPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED / 2.5, 115, true));
-            // operator.getClosedPositionButton().onTrue(structure.moveIntakeUntillAngle(AUTOMATIC_INTAKE_SPEED, 180, false));
+  
+            operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
+            operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+            operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
+            operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
 
             operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));
             operator.getIntakeIntakingButton().whileFalse(structure.shootIntake(0));

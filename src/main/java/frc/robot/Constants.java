@@ -33,7 +33,7 @@ public final class Constants {
         public static final double ANGLE_OFFSET = 170;
         public static final int velocityConversionFactor = 1;
 
-        public static final double MIN_DEG = 0;
+        public static final double MIN_DEG = 5;
         public static final double MAX_DEG = 190;
 
         public static final int ANGLE_MOTOR_CURRENT_LIMIT = 30;
@@ -42,11 +42,11 @@ public final class Constants {
         public static final int FEEDING_MOTOR_ID = 6;
         public static final int ANGLE_MOTOR_ID = 5;
 
-        public static final double GROUND_INTAKE_ANGLE = 5;
+        public static final double GROUND_INTAKE_ANGLE = 7;
         public static final double AMP_INTAKE_ANGLE = 115;
         public static final double SPEAKER_INTAKE_ANGLE = 187;
 
-        public static final double MANUAL_INTAKE_SPEED = 0.5;
+        public static final double MANUAL_INTAKE_SPEED = 0.25;
         public static final double AUTOMATIC_INTAKE_SPEED = 0.8;
 
         public static final double INTAKE_FEEDING_SPEED = -0.45;
@@ -72,7 +72,7 @@ public final class Constants {
 
         public static final double CLIMBING_MOTOR_CURR_LIMIT = 20;
 
-        public static final double CLIMBING_CONVERSION_FACTOR = 0.05;
+        public static final double CLIMBING_CONVERSION_FACTOR = 0.25;
     }
 
     public static final class Swerve {
@@ -143,7 +143,7 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double MAX_SPEED = 4.5; // TODO: This must be tuned to specific robot
+        public static final double MAX_SPEED = 3; // TODO: This must be tuned to specific robot
         /** Radians per Second */
         public static final double MAX_ANGULAR_VELOCITY = 10.0; // TODO: This must be tuned to specific robot
 

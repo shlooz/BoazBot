@@ -15,5 +15,5 @@ public interface DriverController {
 
     public double getShooterPotentiometer();
 
-    public JoystickButton getModulesToAbsuluteButton();
+    // public JoystickButton getModulesToAbsuluteButton();
 }

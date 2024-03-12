@@ -14,16 +14,13 @@ public class QXDriveController implements DriverController {
     private GenericHID controller;
     private JoystickButton fieldOrientedButton;
     private JoystickButton resetGyroButton;
-    private JoystickButton reseteModuleAbsuluteButton;
 
 
     public QXDriveController(int id) {
         controller = new GenericHID(id);
 
-        fieldOrientedButton = new JoystickButton(controller, 1);
-        resetGyroButton = new JoystickButton(controller, 2);
-
-        reseteModuleAbsuluteButton = new JoystickButton(controller, 4);
+        fieldOrientedButton = new JoystickButton(controller, 2);
+        resetGyroButton = new JoystickButton(controller, 4);
     
     }
 
@@ -56,10 +53,10 @@ public class QXDriveController implements DriverController {
     public JoystickButton getResetGyroButton() {
         return resetGyroButton;
     }
-    @Override
-    public JoystickButton getModulesToAbsuluteButton(){
-        return reseteModuleAbsuluteButton;
-    }
+    // @Override
+    // public JoystickButton getModulesToAbsuluteButton(){
+    //     return reseteModuleAbsuluteButton;
+    // }
 
     @Override
     public double getShooterPotentiometer() {

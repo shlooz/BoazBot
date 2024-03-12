@@ -18,8 +18,8 @@ import java.util.function.DoubleSupplier;
 
 public class ClimbingSubsystem extends SubsystemBase {
   /** Creates a new climbingSubsystem. */
-  CANSparkMax leftClimbingMotor;
-  CANSparkMax rightClimbingMotor;
+  static CANSparkMax leftClimbingMotor;
+  static CANSparkMax rightClimbingMotor;
 
   public ClimbingSubsystem() {
     leftClimbingMotor = new CANSparkMax(LEFT_CLIMBING_MOTOR_ID, MotorType.kBrushless);
@@ -31,12 +31,22 @@ public class ClimbingSubsystem extends SubsystemBase {
     leftClimbingMotor.setIdleMode(IdleMode.kBrake);
     rightClimbingMotor.setIdleMode(IdleMode.kBrake);
 
-    leftClimbingMotor.setInverted(true);
-    rightClimbingMotor.setInverted(false);
+    leftClimbingMotor.setInverted(false);
+    rightClimbingMotor.setInverted(true);
 
     leftClimbingMotor.setSmartCurrentLimit(LEFT_CLIMBING_MOTOR_ID);
     rightClimbingMotor.setSmartCurrentLimit(LEFT_CLIMBING_MOTOR_ID);
 
+  }
+
+  public static void enableCoast(boolean enable) {
+    if (enable) {
+      leftClimbingMotor.setIdleMode(IdleMode.kCoast);
+      rightClimbingMotor.setIdleMode(IdleMode.kCoast);
+    } else {
+      leftClimbingMotor.setIdleMode(IdleMode.kBrake);
+      rightClimbingMotor.setIdleMode(IdleMode.kBrake);
+    }
   }
 
   @Override
@@ -45,8 +55,8 @@ public class ClimbingSubsystem extends SubsystemBase {
   }
 
   public void climbing(double leftSpeed, double rightSpeed){
-    leftClimbingMotor.set(leftSpeed /* CLIMBING_CONVERSION_FACTOR */);
-    rightClimbingMotor.set(rightSpeed /* CLIMBING_CONVERSION_FACTOR*/);
+    leftClimbingMotor.set(leftSpeed * CLIMBING_CONVERSION_FACTOR);
+    rightClimbingMotor.set(rightSpeed * CLIMBING_CONVERSION_FACTOR);
   }
 
   public Command climbingCommand(DoubleSupplier leftSpeed, DoubleSupplier rightSpeed){

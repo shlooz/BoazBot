@@ -39,8 +39,12 @@ public class IntakePositionSubsystem extends SubsystemBase {
     angleMotor = new CANSparkMax(ANGLE_MOTOR_ID, MotorType.kBrushless);
     angleMotor.restoreFactoryDefaults();
 
+    angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)(MAX_DEG));
+    angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)(MIN_DEG));
+    
     angleMotor.setSmartCurrentLimit(ANGLE_MOTOR_CURRENT_LIMIT);
     angleMotor.setInverted(true);
+
     angleAbsoluteEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
     angleAbsoluteEncoder.setPositionConversionFactor(360);
     angleAbsoluteEncoder.setZeroOffset(ANGLE_OFFSET);

@@ -51,16 +51,16 @@ public class XboxOperationController {
         climbingButton = new Trigger(() -> isClimbingOn());
     }
 
-    public boolean upArrow(){
+    private boolean upArrow(){
         return controller.getPOV() == 0;
     }
-    public boolean rightArrow(){
+    private boolean rightArrow(){
         return controller.getPOV() == 90;
     }
-    public boolean downArrow(){
+    private boolean downArrow(){
         return controller.getPOV() == 180;
     }
-    public boolean leftArrow(){
+    private boolean leftArrow(){
         return controller.getPOV() == 270;
     }
     
