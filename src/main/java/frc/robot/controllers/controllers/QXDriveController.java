@@ -19,8 +19,8 @@ public class QXDriveController implements DriverController {
     public QXDriveController(int id) {
         controller = new GenericHID(id);
 
-        fieldOrientedButton = new JoystickButton(controller, 2);
-        resetGyroButton = new JoystickButton(controller, 4);
+        fieldOrientedButton = new JoystickButton(controller, 4);
+        resetGyroButton = new JoystickButton(controller, 2);
     
     }
 

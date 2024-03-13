@@ -13,7 +13,7 @@ import frc.lib.util.SwerveModuleConstants;
 
 public final class Constants {
 
-    public static final double STICK_DEADBAND = 0.5;
+    public static final double STICK_DEADBAND = 0.1;
 
     public static final int DRIVER_CONTROLLER_ID = 0;
     public static final int OPERATOR_CONTROLLER_ID = 1;
@@ -33,7 +33,7 @@ public final class Constants {
         public static final double ANGLE_OFFSET = 170;
         public static final int velocityConversionFactor = 1;
 
-        public static final double MIN_DEG = 5;
+        public static final double MIN_DEG = 0;
         public static final double MAX_DEG = 190;
 
         public static final int ANGLE_MOTOR_CURRENT_LIMIT = 30;
@@ -57,9 +57,9 @@ public final class Constants {
         public static final double INTAKE_POS_TIME = 0.9;
 
         public static final double KG_ANGLE = 0.08;
-        public static final double KV_ANGLE = 2;
-        public static final double KS_ANGLE = 0.0;
-        public static final double KA_ANGLE = 0;
+        public static final double KV_ANGLE = 2.00;
+        public static final double KS_ANGLE = 0.00;
+        public static final double KA_ANGLE = 0.00;
 
 
     }
@@ -143,7 +143,7 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double MAX_SPEED = 3; // TODO: This must be tuned to specific robot
+        public static final double MAX_SPEED = 4.5; // TODO: This must be tuned to specific robot
         /** Radians per Second */
         public static final double MAX_ANGULAR_VELOCITY = 10.0; // TODO: This must be tuned to specific robot
 
