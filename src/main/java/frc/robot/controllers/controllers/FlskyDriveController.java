@@ -54,10 +54,11 @@ public class FlskyDriveController implements DriverController {
     public JoystickButton getResetGyroButton() {
         return resetGyroButton;
     }
-    @Override
-    public JoystickButton getModulesToAbsuluteButton(){
-        return reseteModuleAbsuluteButton;
-    }
+    // @Override
+    // public JoystickButton getModulesToAbsuluteButton(){
+    //     return reseteModuleAbsuluteButton;
+    // }
+    
     @Override
     public double getShooterPotentiometer() {
         return 1;
