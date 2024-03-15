@@ -104,15 +104,16 @@ public class Swerve extends SubsystemBase {
     }
 
     public Command driveCommand(DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier angularSpeed,
-            BooleanSupplier isOpenLoop) {
+            BooleanSupplier isFieldOriented) {
         return new RunCommand(() ->
 
         drive(new Translation2d(
                 MathUtil.applyDeadband(xSpeed.getAsDouble(), STICK_DEADBAND),
-                MathUtil.applyDeadband(ySpeed.getAsDouble(), STICK_DEADBAND)),
-                MathUtil.applyDeadband(angularSpeed.getAsDouble(), STICK_DEADBAND),
-                true,
-                isOpenLoop.getAsBoolean())
+                MathUtil.applyDeadband(ySpeed.getAsDouble(), STICK_DEADBAND)).times(MAX_SPEED),
+                MathUtil.applyDeadband(angularSpeed.getAsDouble(), STICK_DEADBAND) * MAX_ANGULAR_VELOCITY
+                ,
+                !isFieldOriented.getAsBoolean(),
+                true)
 
                 , this);
     }

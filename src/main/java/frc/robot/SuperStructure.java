@@ -46,12 +46,12 @@ public class SuperStructure {
 
     /* swerve drive Commands*/
     public Command drive(DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier rotationSpeed,
-            BooleanSupplier isOpenLoop) {
+            BooleanSupplier isFieldOriented) {
         return SwerveSubsystem.driveCommand(
                 xSpeed,
                 ySpeed,
                 rotationSpeed,
-                isOpenLoop);
+                isFieldOriented);
     }
 
     /* intake position PID Commands */
