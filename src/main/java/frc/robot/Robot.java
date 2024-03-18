@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     IntakePositionSubsystem.enableCoast(true);
-    ClimbingSubsystem.enableCoast(true);
+    //ClimbingSubsystem.enableCoast(true);
   }
 
   @Override

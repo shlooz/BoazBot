@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.IntakeConstants.*;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import frc.robot.commands.*;
 import frc.robot.controllers.controllers.QXDriveController;
 import frc.robot.controllers.controllers.XboxOperationController;
@@ -39,7 +42,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        structure.SwerveSubsystem.setDefaultCommand(
+        structure.swerveSubsystem.setDefaultCommand(
             structure.drive(
                 () -> -driver.getXSpeed(), 
                 () -> driver.getYSpeed(), 
@@ -68,7 +71,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        driver.getResetGyroButton().onTrue(new InstantCommand(() -> structure.SwerveSubsystem.zeroHeading()));
+        driver.getResetGyroButton().onTrue(new InstantCommand(() -> structure.swerveSubsystem.zeroHeading()));
         //driver.getModulesToAbsuluteButton().onTrue(new InstantCommand(() -> structure.SwerveSubsystem.resetModulesToAbsolute()));
         /* operator PID controller */
         {
@@ -92,7 +95,7 @@ public class RobotContainer {
             operator.getIntakeOutakingButton().whileFalse(structure.shootIntake(0));
             operator.getIntakeOutakingButton().whileTrue(structure.shootIntake(INTAKE_SHOOTING_SPEED));
 
-            operator.getWarmingButton().whileTrue(structure.warmShooter(driver.getShooterPotentiometer()));
+            operator.getWarmingButton().whileTrue(structure.warmShooterWithAngle());
             operator.getWarmingButton().whileFalse(structure.closeShooter());
 
             operator.getClimbing().onTrue(
@@ -107,10 +110,13 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return auto_chooser.getSelected();
+        PathPlannerPath path = PathPlannerPath.fromPathFile("TestAuto1");
+        // return auto_chooser.getSelected();
+        return AutoBuilder.followPath(path);
     }
 
     public void onEnable(){
-        structure.SwerveSubsystem.resetModulesToAbsolute();
+        structure.swerveSubsystem.resetModulesToAbsolute();
     }
+
 }

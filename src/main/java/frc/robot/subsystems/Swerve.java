@@ -40,6 +40,7 @@ public class Swerve extends SubsystemBase {
 
     private ChassisSpeeds currChassisSpeeds;
 
+
     public Swerve() {
         gyro = new AHRS(SerialPort.Port.kMXP);
 
@@ -191,6 +192,7 @@ public class Swerve extends SubsystemBase {
         }
     }
 
+
     @Override
     public void periodic() {
         swerveOdometry.update(getGyroYaw(), getModulePositions());
@@ -200,9 +202,17 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
+
+        System.out.println(getRobotOrientationForSpeaker());
     }
 
     public ChassisSpeeds getCurrentSpeeds() {
         return currChassisSpeeds;
+    }
+
+    public double getRobotOrientationForSpeaker(){
+        double robotsOrientation = Math.signum(
+            MathUtil.applyDeadband(getPose().getRotation().getDegrees(), 25));
+        return robotsOrientation;
     }
 }

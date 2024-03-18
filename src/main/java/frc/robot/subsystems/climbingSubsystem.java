@@ -31,11 +31,11 @@ public class ClimbingSubsystem extends SubsystemBase {
     leftClimbingMotor.setIdleMode(IdleMode.kBrake);
     rightClimbingMotor.setIdleMode(IdleMode.kBrake);
 
-    leftClimbingMotor.setInverted(false);
+    leftClimbingMotor.setInverted(true);
     rightClimbingMotor.setInverted(true);
 
-    leftClimbingMotor.setSmartCurrentLimit(LEFT_CLIMBING_MOTOR_ID);
-    rightClimbingMotor.setSmartCurrentLimit(LEFT_CLIMBING_MOTOR_ID);
+    leftClimbingMotor.setSmartCurrentLimit(CLIMBING_MOTOR_CURR_LIMIT);
+    rightClimbingMotor.setSmartCurrentLimit(CLIMBING_MOTOR_CURR_LIMIT);
 
   }
 

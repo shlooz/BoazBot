@@ -27,6 +27,8 @@ public final class Constants {
 
         public static final double LEFT_MOTOR_SPEED_SLOW = -3;
         public static final double RIGHT_MOTOR_SPEED_SLOW = -3;
+
+        public static final double SHOOTING_ANGLE_FACTOR = 2;
     }
 
     public static final class IntakeConstants {
@@ -68,11 +70,11 @@ public final class Constants {
         public static final int RIGHT_CLIMBING_MOTOR_ID = 8;
         public static final int LEFT_CLIMBING_MOTOR_ID = 9;
 
-        public static final double CLIMBING_SPEED = 1;
+        public static final double CLIMBING_SPEED = 5;
 
-        public static final double CLIMBING_MOTOR_CURR_LIMIT = 20;
+        public static final int CLIMBING_MOTOR_CURR_LIMIT = 15;
 
-        public static final double CLIMBING_CONVERSION_FACTOR = 0.25;
+        public static final double CLIMBING_CONVERSION_FACTOR = 0.35;
     }
 
     public static final class Swerve {

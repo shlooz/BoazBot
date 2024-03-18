@@ -1,8 +1,10 @@
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -26,7 +28,7 @@ public class SuperStructure {
     private final IntakeFeederSubsystem intakeFeederSubsystem;
     private final ShooterSubsystem shooterSubsystem;
     private final ClimbingSubsystem climbingSubsystem;
-    public final Swerve SwerveSubsystem;
+    public final Swerve swerveSubsystem;
 
     // private final ClimbingSubsystem climbingSubsystem;
 
@@ -37,7 +39,7 @@ public class SuperStructure {
         intakeFeederSubsystem = new IntakeFeederSubsystem();
         shooterSubsystem = new ShooterSubsystem();
         climbingSubsystem = new ClimbingSubsystem();
-        SwerveSubsystem = new Swerve();
+        swerveSubsystem = new Swerve();
 
 
         this.endIntakeTrigger = endIntakeTrigger;
@@ -47,7 +49,7 @@ public class SuperStructure {
     /* swerve drive Commands*/
     public Command drive(DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier rotationSpeed,
             BooleanSupplier isFieldOriented) {
-        return SwerveSubsystem.driveCommand(
+        return swerveSubsystem.driveCommand(
                 xSpeed,
                 ySpeed,
                 rotationSpeed,
@@ -94,11 +96,29 @@ public class SuperStructure {
     }
 
     /* shooter Commands */
-    public Command warmShooter(double QxShooterSpeedpotentiometer) {
-        double Qxconvertion = (QxShooterSpeedpotentiometer + 1) * 0.5;
+    public Command warmShooter() {
         return shooterSubsystem.shootingCommand(
-                LEFT_MOTOR_SPEED_SPEAKER * Qxconvertion,
-                RIGHT_MOTOR_SPEED_SPEAKER * Qxconvertion);
+                LEFT_MOTOR_SPEED_SPEAKER,
+                RIGHT_MOTOR_SPEED_SPEAKER);
+    }
+    public Command warmShooterWithAngle(){
+        double robotsOrientation = swerveSubsystem.getRobotOrientationForSpeaker();
+
+        if (robotsOrientation == -1){
+            return shooterSubsystem.shootingCommand(
+                    LEFT_MOTOR_SPEED_SPEAKER,
+                    RIGHT_MOTOR_SPEED_SPEAKER * SHOOTING_ANGLE_FACTOR);
+        }
+        else if (robotsOrientation == 0) {
+            return warmShooter();
+        }
+        else if (robotsOrientation == 1){
+            return shooterSubsystem.shootingCommand(
+                    LEFT_MOTOR_SPEED_SPEAKER * SHOOTING_ANGLE_FACTOR,
+                    RIGHT_MOTOR_SPEED_SPEAKER);
+        }
+        return null;
+
     }
     public Command closeShooter() {
         return new InstantCommand(() -> shooterSubsystem.setShootingSpeed(0, 0));
@@ -111,7 +131,7 @@ public class SuperStructure {
 
     public class SuperStructureAutos {
         public Command shootingAuto() {
-            return warmShooter(1)
+            return warmShooter()
                     .raceWith(new WaitCommand(2))
                     .andThen(shootIntake(INTAKE_SHOOTING_SPEED)
                             .raceWith(new WaitCommand(4)))
@@ -120,7 +140,7 @@ public class SuperStructure {
         }
 
         public Command taxiAuto() {
-            return SwerveSubsystem.driveConstantSpeed(
+            return swerveSubsystem.driveConstantSpeed(
                     -1,
                     0,
                     0,
