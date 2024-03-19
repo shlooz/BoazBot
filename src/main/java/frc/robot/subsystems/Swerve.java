@@ -203,7 +203,7 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
 
-        System.out.println(getRobotOrientationForSpeaker());
+        //System.out.println(getRobotOrientationForSpeaker());
     }
 
     public ChassisSpeeds getCurrentSpeeds() {

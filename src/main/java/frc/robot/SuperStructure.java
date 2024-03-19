@@ -41,12 +41,11 @@ public class SuperStructure {
         climbingSubsystem = new ClimbingSubsystem();
         swerveSubsystem = new Swerve();
 
-
         this.endIntakeTrigger = endIntakeTrigger;
 
     }
 
-    /* swerve drive Commands*/
+    /* swerve drive Commands */
     public Command drive(DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier rotationSpeed,
             BooleanSupplier isFieldOriented) {
         return swerveSubsystem.driveCommand(
@@ -77,12 +76,14 @@ public class SuperStructure {
         return intakePositionSubsystem.startIntakeMovment(direction ? speed : -speed)
                 .raceWith(new WaitCommand(INTAKE_POS_TIME));
     }
+
     public Command moveIntakeUntillAngle(double speed, double angle, boolean direction) {
         return intakePositionSubsystem.startIntakeMovment(direction ? speed : -speed)
                 .raceWith(new WaitUntilCommand(
                         () -> intakePositionSubsystem.isIntakeInAngle(angle, direction)))
                 .raceWith(new WaitUntilCommand(endIntakeTrigger));
     }
+
     public Command moveIntakeManualy(double speed) {
         return intakePositionSubsystem.runAngleMotorCommand(speed);
     }
@@ -91,28 +92,29 @@ public class SuperStructure {
     public Command shootIntake(double speed) {
         return intakeFeederSubsystem.feedingCommand(speed);
     }
+
     public Command stopIntake() {
         return new InstantCommand(() -> intakeFeederSubsystem.feeding(0));
     }
 
     /* shooter Commands */
     public Command warmShooter() {
+        System.out.println("got here 0");
         return shooterSubsystem.shootingCommand(
                 LEFT_MOTOR_SPEED_SPEAKER,
                 RIGHT_MOTOR_SPEED_SPEAKER);
     }
-    public Command warmShooterWithAngle(){
-        double robotsOrientation = swerveSubsystem.getRobotOrientationForSpeaker();
 
-        if (robotsOrientation == -1){
+    public Command warmShooterWithAngle() {
+        DoubleSupplier robotsOrientation = () -> swerveSubsystem.getRobotOrientationForSpeaker();
+        System.out.println(robotsOrientation.getAsDouble());
+        if (robotsOrientation.getAsDouble() == -1) {
             return shooterSubsystem.shootingCommand(
                     LEFT_MOTOR_SPEED_SPEAKER,
-                    RIGHT_MOTOR_SPEED_SPEAKER * SHOOTING_ANGLE_FACTOR);
-        }
-        else if (robotsOrientation == 0) {
+                    RIGHT_MOTOR_SPEED_SPEAKER );
+        } else if (robotsOrientation.getAsDouble() == 0) {
             return warmShooter();
-        }
-        else if (robotsOrientation == 1){
+        } else if (robotsOrientation.getAsDouble() == 1) {
             return shooterSubsystem.shootingCommand(
                     LEFT_MOTOR_SPEED_SPEAKER * SHOOTING_ANGLE_FACTOR,
                     RIGHT_MOTOR_SPEED_SPEAKER);
@@ -120,6 +122,7 @@ public class SuperStructure {
         return null;
 
     }
+
     public Command closeShooter() {
         return new InstantCommand(() -> shooterSubsystem.setShootingSpeed(0, 0));
     }

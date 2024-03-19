@@ -14,7 +14,7 @@ public class FlskyDriveController implements DriverController {
     private GenericHID controller;
     private JoystickButton fieldOrientedButton;
     private JoystickButton resetGyroButton;
-    private JoystickButton reseteModuleAbsuluteButton;
+    // private JoystickButton reseteModuleAbsuluteButton;
 
 
     public FlskyDriveController(int id) {
@@ -22,7 +22,7 @@ public class FlskyDriveController implements DriverController {
 
         fieldOrientedButton = new JoystickButton(controller, 1);
         resetGyroButton = new JoystickButton(controller, 7);
-        reseteModuleAbsuluteButton = new JoystickButton(controller, 5);
+        // reseteModuleAbsuluteButton = new JoystickButton(controller, 5);
     
     }
 

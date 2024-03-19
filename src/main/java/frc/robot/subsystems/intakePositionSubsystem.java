@@ -39,9 +39,9 @@ public class IntakePositionSubsystem extends SubsystemBase {
     angleMotor = new CANSparkMax(ANGLE_MOTOR_ID, MotorType.kBrushless);
     angleMotor.restoreFactoryDefaults();
 
-    angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)(MAX_DEG));
-    angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)(MIN_DEG));
-    
+    angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float) (MAX_DEG));
+    angleMotor.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float) (MIN_DEG));
+
     angleMotor.setSmartCurrentLimit(ANGLE_MOTOR_CURRENT_LIMIT);
     angleMotor.setInverted(true);
 
@@ -64,7 +64,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // if (stopIntakeFlag && !isCurrFine()) {
-    //   stopIntakeMovment();
+    // stopIntakeMovment();
     // }
   }
 
@@ -188,10 +188,8 @@ public class IntakePositionSubsystem extends SubsystemBase {
         0,
         feedForward, SparkPIDController.ArbFFUnits.kVoltage);
 
-    System.out.println(state.position);
 
   }
-    
 
   public Command moveToAngle() {
     return moveToAngle(0);
