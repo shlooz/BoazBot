@@ -11,13 +11,17 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import static frc.robot.Constants.*;
 import static frc.robot.Constants.IntakeConstants.*;
+import static frc.robot.Constants.ControllerConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import frc.robot.commands.*;
 import frc.robot.controllers.controllers.QXDriveController;
+import frc.robot.controllers.controllers.QXOperationController;
+import frc.robot.controllers.controllers.XboxDriveController;
 import frc.robot.controllers.controllers.XboxOperationController;
+import frc.robot.subsystems.IntakePositionSubsystem;
 import frc.robot.subsystems.Swerve;
 
 /**
@@ -32,8 +36,11 @@ import frc.robot.subsystems.Swerve;
 public class RobotContainer {
 
     /* Controllers */
-    private final QXDriveController driver = new QXDriveController(DRIVER_CONTROLLER_ID);
-    private final XboxOperationController operator = new XboxOperationController(OPERATOR_CONTROLLER_ID);
+    // private final QXDriveController driver = new QXDriveController(1);
+    // private final QXOperationController operator = new QXOperationController(OPERATOR_CONTROLLER_ID);
+
+    private final XboxDriveController driver = new XboxDriveController(0);
+    private final XboxOperationController operator = new XboxOperationController(0);
 
     /* Driver Buttons */
 
@@ -49,18 +56,18 @@ public class RobotContainer {
     public RobotContainer() {
         structure.swerveSubsystem.setDefaultCommand(
                 structure.drive(
-                        () -> -driver.getXSpeed(),
                         () -> driver.getYSpeed(),
+                        () -> -driver.getXSpeed(),
                         () -> driver.getRotationSpeed(),
                         () -> driver.getFieldOriented()));
 
         auto_chooser.setDefaultOption("Shoot and Scoot", Autos.shootAndScootAuto());
         auto_chooser.addOption("Shoot", Autos.shootingAuto());
         auto_chooser.addOption("Taxi", Autos.taxiAuto());
-        auto_chooser.addOption("Test1", Autos.testPathPlannerAuto());
+        // auto_chooser.addOption("Test1", Autos.testPathPlannerAuto());
         auto_chooser.addOption("Do Nothing", new InstantCommand());
 
-        SmartDashboard.putData("Auto Chooser", auto_chooser);
+        // SmartDashboard.putData("Auto Chooser", auto_chooser);
 
         // Configure the button bindings
         configureButtonBindings();
@@ -82,7 +89,7 @@ public class RobotContainer {
         /* operator PID controller */
         {
 
-            operator.getClosedPositionButton().onTrue(structure.closeIntake());
+            operator.getToSpeakerPositionButton().onTrue(structure.closeIntake());
             operator.getToAmpPositionButton().onTrue(structure.ampIntake());
             operator.getToGroundPositionButton().onTrue(structure.groundIntake());
 
@@ -91,22 +98,24 @@ public class RobotContainer {
         /* operatpr manual controll */
         {
 
-            operator.getManualDownIntakeButton().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
-            operator.getManualDownIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-            operator.getManualUpIntakeButton().whileFalse(structure.moveIntakeManualy(0));
-            operator.getManualUpIntakeButton().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
+            operator.getManualIntakePositionDown().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
+            operator.getManualIntakePositionDown().whileFalse(structure.moveIntakeManualy(0));
+            operator.getManualIntakePositionUp().whileFalse(structure.moveIntakeManualy(0));
+            operator.getManualIntakePositionUp().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
 
-            operator.getIntakeIntakingButton().whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));
+            operator.getIntakeIntakingButton().and(()  -> structure.intakeState()).whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));
+            operator.getIntakeIntakingButton().and(() -> !structure.intakeState()).whileTrue(structure.shootIntake(INTAKE_SHOOTING_SPEED));
             operator.getIntakeIntakingButton().whileFalse(structure.shootIntake(0));
-            operator.getIntakeOutakingButton().whileFalse(structure.shootIntake(0));
-            operator.getIntakeOutakingButton().whileTrue(structure.shootIntake(INTAKE_SHOOTING_SPEED));
 
-            operator.getWarmingButton().whileTrue(structure.warmShooterWithAngle());
-            operator.getWarmingButton().whileFalse(structure.closeShooter());
 
-            operator.getClimbing().onTrue(
-                    structure.climb(() -> operator.getClimbingSpeed()));
+            operator.getWarmingButton().onTrue(structure.shootingSequence());
+            // operator.getWarmingButton().whileFalse(structure.closeShooter());
+
         }
+
+        //     operator.getClimbing().onTrue(
+        //             structure.climb(() -> operator.getClimbingSpeed()));
+        // }
 
     }
 
@@ -117,9 +126,9 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        PathPlannerPath path = PathPlannerPath.fromPathFile("TestAuto1");
-        // return auto_chooser.getSelected();
-        return AutoBuilder.followPath(path);
+        // PathPlannerPath path = PathPlannerPath.fromPathFile("TestAuto1");
+        // return AutoBuilder.followPath(path);
+        return Autos.shootAndScootAuto();
     }
 
     public void onEnable() {

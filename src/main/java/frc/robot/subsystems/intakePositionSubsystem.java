@@ -22,12 +22,21 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.TrapezoidProfileCommand;
 
+enum position {
+  GROUND,
+  AMP,
+  SHOOTER
+}
+
+
 public class IntakePositionSubsystem extends SubsystemBase {
   // private static final double INTAKE_POS_CUR_LIMIT = 0;
   /** Creates a new intakePositionSubsystem. */
   static CANSparkMax angleMotor;
   SparkPIDController angleController;
   AbsoluteEncoder angleAbsoluteEncoder;
+
+  position intakePose;
 
   double targetAngle;
   boolean stopIntakeFlag;
@@ -50,6 +59,7 @@ public class IntakePositionSubsystem extends SubsystemBase {
     angleAbsoluteEncoder.setZeroOffset(ANGLE_OFFSET);
     angleAbsoluteEncoder.setVelocityConversionFactor(velocityConversionFactor);
 
+
     angleController = angleMotor.getPIDController();
     angleController.setFeedbackDevice(angleAbsoluteEncoder);
     angleMotor.setClosedLoopRampRate(0.5);
@@ -63,9 +73,9 @@ public class IntakePositionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // if (stopIntakeFlag && !isCurrFine()) {
-    // stopIntakeMovment();
-    // }
+    intakePose = getIntakeAngle() < 10 ?
+      position.GROUND : getIntakeAngle() < 150 ?
+        position.AMP : position.SHOOTER;
   }
 
   // This method will be called once per scheduler run
@@ -125,6 +135,21 @@ public class IntakePositionSubsystem extends SubsystemBase {
     return new TrapezoidProfile.State(
         angleAbsoluteEncoder.getPosition(),
         angleAbsoluteEncoder.getVelocity());
+  }
+
+  public boolean isIntakeDown(){
+    return intakePose == position.GROUND ?
+        true : false;
+  }
+
+  public boolean isIntakeMid(){
+    return intakePose == position.AMP ?
+        true : false;
+  }
+
+  public boolean isIntakeUP(){
+    return intakePose == position.SHOOTER ?
+        true : false;
   }
 
   public double getIntakeAngle() {

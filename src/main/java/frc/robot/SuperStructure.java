@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.ClimbingSubsystem;
+// import frc.robot.subsystems.ClimbingSubsystem;
 import frc.robot.subsystems.IntakeFeederSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.Swerve;
@@ -27,7 +27,7 @@ public class SuperStructure {
     private final IntakePositionSubsystem intakePositionSubsystem;
     private final IntakeFeederSubsystem intakeFeederSubsystem;
     private final ShooterSubsystem shooterSubsystem;
-    private final ClimbingSubsystem climbingSubsystem;
+    // private final ClimbingSubsystem climbingSubsystem;
     public final Swerve swerveSubsystem;
 
     // private final ClimbingSubsystem climbingSubsystem;
@@ -38,7 +38,7 @@ public class SuperStructure {
         intakePositionSubsystem = new IntakePositionSubsystem();
         intakeFeederSubsystem = new IntakeFeederSubsystem();
         shooterSubsystem = new ShooterSubsystem();
-        climbingSubsystem = new ClimbingSubsystem();
+        // climbingSubsystem = new ClimbingSubsystem();
         swerveSubsystem = new Swerve();
 
         this.endIntakeTrigger = endIntakeTrigger;
@@ -99,15 +99,18 @@ public class SuperStructure {
 
     /* shooter Commands */
     public Command warmShooter() {
-        System.out.println("got here 0");
         return shooterSubsystem.shootingCommand(
                 LEFT_MOTOR_SPEED_SPEAKER,
                 RIGHT_MOTOR_SPEED_SPEAKER);
     }
+    public Command warmShooterPID(){
+        return shooterSubsystem.shootingRPMCommand(
+            -4600, 
+            -4600);
+    }
 
     public Command warmShooterWithAngle() {
         DoubleSupplier robotsOrientation = () -> swerveSubsystem.getRobotOrientationForSpeaker();
-        System.out.println(robotsOrientation.getAsDouble());
         if (robotsOrientation.getAsDouble() == -1) {
             return shooterSubsystem.shootingCommand(
                     LEFT_MOTOR_SPEED_SPEAKER,
@@ -122,14 +125,36 @@ public class SuperStructure {
         return null;
 
     }
+    
 
     public Command closeShooter() {
         return new InstantCommand(() -> shooterSubsystem.setShootingSpeed(0, 0));
     }
 
+    public Command shootingSequence(){
+        return warmShooterPID()
+                .raceWith(new WaitCommand(0.5))
+                .andThen(shootIntake(INTAKE_SHOOTING_SPEED)
+                        .raceWith(new WaitCommand(1.5)))
+                .andThen(closeShooter())
+                .andThen(stopIntake());
+                
+        // return warmShooter()
+        //         .raceWith(new WaitCommand(2))
+        //         .andThen(shootIntake(INTAKE_SHOOTING_SPEED)
+        //                 .raceWith(new WaitCommand(4)))
+        //         .andThen(closeShooter())
+        //         .andThen(stopIntake());
+
+    }
+
     /* climbing Commands */
-    public Command climb(DoubleSupplier climbingSpeed) {
-        return climbingSubsystem.climbingCommand(climbingSpeed, climbingSpeed);
+    // public Command climb(DoubleSupplier climbingSpeed) {
+    //     return climbingSubsystem.climbingCommand(climbingSpeed, climbingSpeed);
+    // }
+
+    public Boolean intakeState(){
+        return intakePositionSubsystem.isIntakeDown();
     }
 
     public class SuperStructureAutos {
@@ -147,7 +172,7 @@ public class SuperStructure {
                     -1,
                     0,
                     0,
-                    2.5);
+                    3.5);
         }
 
         public Command shootAndScootAuto() {
@@ -157,8 +182,10 @@ public class SuperStructure {
         }
 
         public Command testPathPlannerAuto() {
-            return new PathPlannerAuto("TestAuto1");
+            // return new PathPlannerAuto("TestAuto1");
+            return null;
         }
+
 
     }
 }

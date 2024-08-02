@@ -1,7 +1,10 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.Constants.ControllerConstants.*;
 import frc.robot.subsystems.Swerve;
+
+import static frc.robot.Constants.ControllerConstants.STICK_DEADBAND;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -31,10 +34,9 @@ public class TeleopSwerve extends Command {
     @Override
     public void execute() {
         /* Get Values, Deadband*/
-        double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.STICK_DEADBAND);
-        double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.STICK_DEADBAND);
-        double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.STICK_DEADBAND);
-        System.out.println(translationVal);
+        double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), STICK_DEADBAND);
+        double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), STICK_DEADBAND);
+        double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), STICK_DEADBAND);
         /* Drive */
         s_Swerve.drive(
             new Translation2d(translationVal, strafeVal).times(Constants.Swerve.MAX_SPEED), 

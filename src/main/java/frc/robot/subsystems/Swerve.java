@@ -8,7 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
-import static frc.robot.Constants.STICK_DEADBAND;
+import static frc.robot.Constants.ControllerConstants.*;
 
 import java.util.function.*;
 
@@ -43,6 +43,7 @@ public class Swerve extends SubsystemBase {
 
     public Swerve() {
         gyro = new AHRS(SerialPort.Port.kMXP);
+        gyro.setAngleAdjustment(0);
 
         mSwerveMods = new SwerveModule[] {
                 new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -68,7 +69,7 @@ public class Swerve extends SubsystemBase {
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
                 () -> {
-                    // Boolean supplier that controls when the path will be mirrored for the red
+                    // Boolean  that controls when the path will be mirrored for the red
                     // alliance
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
@@ -203,7 +204,7 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
         }
 
-        //System.out.println(getRobotOrientationForSpeaker());
+        System.out.println(mSwerveMods[0].getPosition());
     }
 
     public ChassisSpeeds getCurrentSpeeds() {
