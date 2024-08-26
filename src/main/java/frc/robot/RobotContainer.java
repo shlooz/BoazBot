@@ -56,10 +56,12 @@ public class RobotContainer {
     public RobotContainer() {
         structure.swerveSubsystem.setDefaultCommand(
                 structure.drive(
-                        () -> driver.getYSpeed(),
+                        () -> -driver.getYSpeed(),
                         () -> -driver.getXSpeed(),
                         () -> driver.getRotationSpeed(),
-                        () -> driver.getFieldOriented()));
+                        () -> driver.getFieldOriented()
+                )
+            );
 
         auto_chooser.setDefaultOption("Shoot and Scoot", Autos.shootAndScootAuto());
         auto_chooser.addOption("Shoot", Autos.shootingAuto());
@@ -89,7 +91,7 @@ public class RobotContainer {
         /* operator PID controller */
         {
 
-            operator.getToSpeakerPositionButton().onTrue(structure.closeIntake());
+            operator.getToClosedPositionButton().onTrue(structure.closeIntake());
             operator.getToAmpPositionButton().onTrue(structure.ampIntake());
             operator.getToGroundPositionButton().onTrue(structure.groundIntake());
 
@@ -98,10 +100,10 @@ public class RobotContainer {
         /* operatpr manual controll */
         {
 
-            operator.getManualIntakePositionDown().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
-            operator.getManualIntakePositionDown().whileFalse(structure.moveIntakeManualy(0));
-            operator.getManualIntakePositionUp().whileFalse(structure.moveIntakeManualy(0));
-            operator.getManualIntakePositionUp().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
+            // operator.getManualIntakePositionDown().whileTrue(structure.moveIntakeManualy(-MANUAL_INTAKE_SPEED));
+            // operator.getManualIntakePositionDown().whileFalse(structure.moveIntakeManualy(0));
+            // operator.getManualIntakePositionUp().whileFalse(structure.moveIntakeManualy(0));
+            // operator.getManualIntakePositionUp().whileTrue(structure.moveIntakeManualy(MANUAL_INTAKE_SPEED));
 
             operator.getIntakeIntakingButton().and(()  -> structure.intakeState()).whileTrue(structure.shootIntake(INTAKE_FEEDING_SPEED));
             operator.getIntakeIntakingButton().and(() -> !structure.intakeState()).whileTrue(structure.shootIntake(INTAKE_SHOOTING_SPEED));

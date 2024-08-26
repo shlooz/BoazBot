@@ -68,7 +68,7 @@ public class XboxOperationController implements OperationController {
         return new Trigger(() -> MathUtil.applyDeadband(controller.getRawAxis(1), STICK_DEADBAND) != 0);
     }
 
-    public Trigger getToSpeakerPositionButton(){
+    public Trigger getToClosedPositionButton(){
         return closeIntakeButton;
     }
     public Trigger getToAmpPositionButton(){
