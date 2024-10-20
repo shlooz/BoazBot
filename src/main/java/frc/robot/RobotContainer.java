@@ -36,11 +36,11 @@ import frc.robot.subsystems.Swerve;
 public class RobotContainer {
 
     /* Controllers */
-    // private final QXDriveController driver = new QXDriveController(1);
-    // private final QXOperationController operator = new QXOperationController(OPERATOR_CONTROLLER_ID);
+    private final QXDriveController driver = new QXDriveController(1);
+    private final QXOperationController operator = new QXOperationController(OPERATOR_CONTROLLER_ID);
 
-    private final XboxDriveController driver = new XboxDriveController(0);
-    private final XboxOperationController operator = new XboxOperationController(0);
+    // private final XboxDriveController driver = new XboxDriveController(0);
+    // private final XboxOperationController operator = new XboxOperationController(0);
 
     /* Driver Buttons */
 

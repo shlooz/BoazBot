@@ -49,6 +49,7 @@ public class XboxOperationController implements OperationController {
         intakingButton = new Trigger(() -> leftArrow());
         outakingButton = new Trigger(() -> rightArrow());
 
+
     }
 
     private boolean upArrow(){

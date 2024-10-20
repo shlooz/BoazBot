@@ -81,7 +81,7 @@ public class QXOperationController {
         return MathUtil.applyDeadband(controller.getRawAxis(1), STICK_DEADBAND) != 0;
     }
 
-    public Trigger getClosedPositionButton(){
+    public Trigger getToClosedPositionButton(){
         return closeIntakeButton;
     }
     public Trigger getToAmpPositionButton(){
